@@ -9,9 +9,13 @@ export default class VideoPlayer extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.videoSrc !== prevProps.videoSrc) {
+        if (this.doesVideoSrcChanged(prevProps)) {
             this.changeVideoSource();
         }
+    }
+
+    doesVideoSrcChanged(prevProps) {
+        return this.props.videoSrc !== prevProps.videoSrc;
     }
 
     getVideoSource() {

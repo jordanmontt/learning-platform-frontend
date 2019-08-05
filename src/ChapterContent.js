@@ -20,7 +20,7 @@ export default class ChapterContent extends React.Component {
                 id={lesson.idLesson}
                 key={lesson.idLesson}
                 className="is-6"
-                style={{ color: "", cursor: "default" }}
+                style={{ cursor: "default" }}
                 onClick={this.props.onLessonChange}>
                 {lesson.name}
             </p>
