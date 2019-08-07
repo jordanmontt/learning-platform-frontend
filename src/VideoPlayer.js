@@ -5,7 +5,6 @@ export default class VideoPlayer extends React.Component {
     changeVideoSource() {
         var video = document.getElementById('video-player');
         video.src = this.getVideoSource();
-        video.play();
     }
 
     componentDidUpdate(prevProps) {
@@ -25,7 +24,7 @@ export default class VideoPlayer extends React.Component {
     render() {
         return (
             <div className="container">
-                <video autoPlay controls
+                <video controls
                     width={this.props.videoWidth} height={this.props.videoHeight} id="video-player">
                     <source src={this.getVideoSource()} type="video/mp4" />
                     Your browser does not support HTML5 video.
