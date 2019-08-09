@@ -189,7 +189,7 @@ export default class ViewVideo extends React.Component {
                     courseId={this.dataFromParentComponent.idCourse} />
                 <div className="columns is-mobile">
                     <div className="column is-two-thirds">
-                        <VideoPlayer videoWidth="750" videoHeight="" videoSrc={this.state.videoSrc} />
+                        <VideoPlayer videoWidth="720" videoHeight="405" videoSrc={this.state.videoSrc} />
                     </div>
                     <div className="column is-one-third">
                         <ProgressBar
