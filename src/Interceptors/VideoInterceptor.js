@@ -7,7 +7,7 @@ export default class VideoInterceptor {
         };
     }
 
-    static parseVideos(unparsedVideos) {
+    static parse(unparsedVideos) {
         let parsedVideos = [];
         unparsedVideos.forEach(v => {
             parsedVideos.push(this.parseVideo(v));

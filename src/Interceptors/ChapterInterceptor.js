@@ -9,7 +9,7 @@ export default class ChapterInterceptor {
         }
     }
 
-    static parseChapters(unparsedChapters) {
+    static parse(unparsedChapters) {
         let parsedChapters = [];
         unparsedChapters.forEach(c => {
             parsedChapters.push(this.parseChapter(c));
