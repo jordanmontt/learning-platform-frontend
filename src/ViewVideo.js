@@ -5,6 +5,8 @@ import VideoHeaders from './VideoHeaders'
 import LessonInterceptor from './Interceptors/LessonInterceptor';
 import ChapterInterceptor from './Interceptors/ChapterInterceptor';
 import VideoInterceptor from './Interceptors/VideoInterceptor';
+import FinishedLessonInterceptor from './Interceptors/FinishedLessonInterceptor';
+import ProgressBar from './ProgressBar';
 
 const axios = require('axios');
 
@@ -12,11 +14,18 @@ export default class ViewVideo extends React.Component {
     constructor(props) {
         super(props);
         this.handleChangeLesson = this.handleChangeLesson.bind(this);
+        this.dataFromParentComponent = {
+            idCourseInProgress: 2,
+            idLessonInProgress: 4,
+            idCourse: 1,
+            idStudent: 1,
+            lastAccessDate: "2019-07-10 10:34:09"
+        };
         this.state = {
             chapters: [],
             lessons: [],
+            finishedLessons: [],
             videos: [],
-            courseName: "El mejor curso para diseñar bases de datos",
             currentChapter: {},
             currentLesson: {},
             videoSrc: ""
@@ -41,8 +50,9 @@ export default class ViewVideo extends React.Component {
         let videos = data.videos;
         let lessons = data.lessons;
         let chapters = data.chapters;
-        let currentLesson = lessons[0];
-        let currentChapter = chapters[0];
+        let currentLesson = this.obtainLessonFromId(lessons);
+        let currentChapter = this.obtainChapterFromLesson(chapters, currentLesson);
+        let finishedLessons = data.finishedLessons;
         let videoSrc = this.findVideoSrc(videos, currentLesson.idVideo);
         this.setState({
             videoSrc: videoSrc,
@@ -50,18 +60,37 @@ export default class ViewVideo extends React.Component {
             currentLesson: currentLesson,
             videos: videos,
             lessons: lessons,
-            chapters: chapters
+            chapters: chapters,
+            finishedLessons: finishedLessons
         });
+    }
+
+    obtainLessonFromId(lessons) {
+        // "this.dataFromParentComponent" will be "this.props" when this component has a parent
+        return lessons.find(l => l.idLesson === this.dataFromParentComponent.idLessonInProgress);
+    }
+
+    obtainChapterFromLesson(chapters, lesson) {
+        return chapters.find(c => c.idChapter === lesson.idChapter);
     }
 
     async fetchData() {
         let videos = await this.fetchVideos();
-        let parsedVideos = VideoInterceptor.parseVideos(videos);
-        let chapters = await this.fetchChapters(1);
-        let parsedChapters = ChapterInterceptor.parseChapters(chapters);
+        let parsedVideos = VideoInterceptor.parse(videos);
+
+        let chapters = await this.fetchChapters(this.dataFromParentComponent.idCourse);
+        let parsedChapters = ChapterInterceptor.parse(chapters);
+
         let lessons = await this.fetchLessons(chapters);
-        let parsedLessons = LessonInterceptor.parseLessons(lessons);
-        return { videos: parsedVideos, lessons: parsedLessons, chapters: parsedChapters };
+        let parsedLessons = LessonInterceptor.parse(lessons);
+
+        let finishedLessons = await this.fetchFinishedLessons(this.dataFromParentComponent.idCourseInProgress);
+        let parsedFinishedLessons = FinishedLessonInterceptor.parse(finishedLessons);
+
+        return {
+            videos: parsedVideos, lessons: parsedLessons,
+            chapters: parsedChapters, finishedLessons: parsedFinishedLessons
+        };
     }
 
     async fetchVideos() {
@@ -99,6 +128,18 @@ export default class ViewVideo extends React.Component {
                 console.log("ERROR in getting lessons: ", error);
             })
         return lessons;
+    }
+
+    async fetchFinishedLessons(courseInProgressId) {
+        var finishedLessons;
+        await axios.get('https://localhost:5001/api/finishedlesson/course-in-progress/' + courseInProgressId)
+            .then(function (response) {
+                finishedLessons = response.data;
+            })
+            .catch(function (error) {
+                console.log("ERROR in getting finished lessons: ", error);
+            })
+        return finishedLessons;
     }
 
     obtainChaptersIDs(chapters) {
@@ -143,14 +184,17 @@ export default class ViewVideo extends React.Component {
             <div className="container">
                 <VideoHeaders
                     chapter={this.state.currentChapter}
-                    totalChapters={this.state.chapters.length}
+                    totalChapters={this.state.chapters}
                     lesson={this.state.currentLesson}
-                    courseName={this.state.courseName} />
+                    courseId={this.dataFromParentComponent.idCourse} />
                 <div className="columns is-mobile">
                     <div className="column is-two-thirds">
-                        <VideoPlayer videoWidth="750" videoHeight="" videoSrc={this.state.videoSrc} />
+                        <VideoPlayer videoWidth="720" videoHeight="405" videoSrc={this.state.videoSrc} />
                     </div>
                     <div className="column is-one-third">
+                        <ProgressBar
+                            finishedLessons={this.state.finishedLessons}
+                            totalLessons={this.state.lessons} />
                         <CourseContent chapters={this.state.chapters}
                             lessons={this.state.lessons}
                             currentLesson={this.state.currentLesson}

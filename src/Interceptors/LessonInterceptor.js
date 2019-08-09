@@ -9,7 +9,7 @@ export default class LessonInterceptor {
         };
     }
 
-    static parseLessons(unparsedLessons) {
+    static parse(unparsedLessons) {
         let parsedLessons = [];
         unparsedLessons.forEach(l => {
             parsedLessons.push(this.parseLesson(l));
