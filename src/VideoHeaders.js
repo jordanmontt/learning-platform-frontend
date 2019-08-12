@@ -13,9 +13,11 @@ export default class VideoHeader extends React.Component {
 
     async componentDidMount() {
         let course = await this.obtainCourseName();
-        this.setState({
-            courseName: course.name
-        });
+        if (course) {
+            this.setState({
+                courseName: course.name
+            });
+        }
     }
 
     getChapterName() {
