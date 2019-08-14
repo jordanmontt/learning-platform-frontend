@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 export default class Login extends React.Component {
 
@@ -56,8 +57,8 @@ export default class Login extends React.Component {
                                 </form>
                             </div>
                             <p className="has-text-grey">
-                                <a href="../">Crear cuenta</a> &nbsp;·&nbsp;
-                                <a href="../">¿Olvidaste la contraseña?</a>
+                                <Link to='/sign-up'>Crear cuenta &nbsp;·&nbsp;</Link>
+                                <Link to=''>¿Olvidaste la contraseña?</Link>
                             </p>
                         </div>
                     </div>
