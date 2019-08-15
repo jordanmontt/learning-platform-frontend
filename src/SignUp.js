@@ -1,6 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
+const axios = require('axios');
+
 export default class SignUp extends React.Component {
 
     constructor(props) {
@@ -19,6 +21,34 @@ export default class SignUp extends React.Component {
     handlePasswordChange(event) {
         let password = event.target.value;
         this.setState({ password: password });
+    }
+
+    preparePersonObj() {
+        let email = this.state.email;
+        let password = this.state.password;
+        return {
+            email: email,
+            password: password,
+            rol: "Profesor",
+            firstName: "Jon",
+            fatherLastName: "Lord",
+            birthDate: new Date()
+        }
+    }
+
+    async createUser() {
+        var isSuccess = false;
+        let user = this.preparePersonObj();
+        await axios.post('https://localhost:5001/api/person', user)
+            .then(function (response) {
+                // eslint-disable-next-line eqeqeq
+                if (response.status == 200)
+                    isSuccess = true;
+            })
+            .catch(function (error) {
+                console.log("ERROR creating user: ", error);
+            })
+        return isSuccess;
     }
 
     render() {
@@ -44,7 +74,8 @@ export default class SignUp extends React.Component {
                                                 placeholder="Contraseña" onChange={e => this.handlePasswordChange(e)} />
                                         </div>
                                     </div>
-                                    <button className="button is-block is-info is-fullwidth">
+                                    <button className="button is-block is-info is-fullwidth"
+                                        onClick={() => this.createUser()}>
                                         Crear cuenta
                                     </button>
                                 </form>
