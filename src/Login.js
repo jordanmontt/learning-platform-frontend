@@ -1,5 +1,7 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React from 'react';
+import { Link } from 'react-router-dom';
+
+const axios = require('axios');
 
 export default class Login extends React.Component {
 
@@ -19,6 +21,35 @@ export default class Login extends React.Component {
     handlePasswordChange(event) {
         let password = event.target.value;
         this.setState({ password: password });
+    }
+
+    isCredentialsCorrect(user) {
+        let localPassword = this.state.password;
+        let passwordInDB = user.password;
+        return localPassword === passwordInDB
+    }
+
+    async login(event) {
+        event.preventDefault();
+        var user = await this.getUser();
+        if (this.isCredentialsCorrect(user)) {
+            console.log("login successful");
+        } else {
+            console.log("login unsuccessful")
+        }
+    }
+
+    async getUser() {
+        let email = this.state.email;
+        var user = {};
+        await axios.get('https://localhost:5001/api/person/email/' + email)
+            .then(function (response) {
+                user = response.data;
+            })
+            .catch(function (error) {
+                console.log("ERROR searching person: ", error);
+            });
+        return user;
     }
 
     render() {
@@ -45,16 +76,13 @@ export default class Login extends React.Component {
                                                 placeholder="Contraseña" onChange={e => this.handlePasswordChange(e)} />
                                         </div>
                                     </div>
-                                    <div className="field">
-                                        <label className="checkbox">
-                                            <input type="checkbox" />
-                                            Recuérdame
-                                        </label>
-                                    </div>
-                                    <button className="button is-block is-info is-fullwidth">
+
+                                    <button className="button is-block is-info is-fullwidth"
+                                        onClick={(e) => this.login(e)}>
                                         Iniciar sesión
                                     </button>
                                 </form>
+
                             </div>
                             <p className="has-text-grey">
                                 <Link to='/sign-up'>Crear cuenta &nbsp;·&nbsp;</Link>
