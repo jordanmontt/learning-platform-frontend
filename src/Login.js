@@ -23,33 +23,34 @@ export default class Login extends React.Component {
         this.setState({ password: password });
     }
 
-    isCredentialsCorrect(user) {
-        let localPassword = this.state.password;
-        let passwordInDB = user.password;
-        return localPassword === passwordInDB
-    }
-
     async login(event) {
         event.preventDefault();
-        var user = await this.getUser();
-        if (this.isCredentialsCorrect(user)) {
+
+        let email = this.state.email;
+        let password = this.state.password;
+        var user = {
+            email: email,
+            password: password
+        };
+        var loginSuccessful = await this.sendLoginRequest(user);
+        if (loginSuccessful) {
+            localStorage.setItem("credentials", JSON.stringify(user));
             console.log("login successful");
         } else {
             console.log("login unsuccessful")
         }
     }
 
-    async getUser() {
-        let email = this.state.email;
-        var user = {};
-        await axios.get('https://localhost:5001/api/person/email/' + email)
+    async sendLoginRequest(user) {
+        let successfulLogin;
+        await axios.post('https://localhost:5001/api/person/login', user)
             .then(function (response) {
-                user = response.data;
+                successfulLogin = response.data;
             })
             .catch(function (error) {
                 console.log("ERROR searching person: ", error);
             });
-        return user;
+        return successfulLogin;
     }
 
     render() {
