@@ -187,11 +187,11 @@ export default class ViewVideo extends React.Component {
                     totalChapters={this.state.chapters}
                     lesson={this.state.currentLesson}
                     courseId={this.dataFromParentComponent.idCourse} />
-                <div className="columns is-mobile">
-                    <div className="column is-two-thirds">
+                <div className="columns is-multiline is-centered is-mobile">
+                    <div className="column is-narrow is-two-thirds-desktop is-full-mobile">
                         <VideoPlayer videoWidth="720" videoHeight="405" videoSrc={this.state.videoSrc} />
                     </div>
-                    <div className="column is-one-third">
+                    <div className="column is-narrow is-one-third-desktop is-full-mobile">
                         <ProgressBar
                             finishedLessons={this.state.finishedLessons}
                             totalLessons={this.state.lessons} />
