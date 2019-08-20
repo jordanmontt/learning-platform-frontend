@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 import { Link } from 'react-router-dom';
+import LoginService from './LoginService';
 
 export default class Navbar extends React.Component {
 
@@ -8,6 +9,7 @@ export default class Navbar extends React.Component {
         super(props);
         this.state = {
             burgerActive: false,
+            isUserLoggedIn: LoginService.isLoggedIn()
         };
     }
 
@@ -35,6 +37,43 @@ export default class Navbar extends React.Component {
 
     getLogoSource() {
         return process.env.PUBLIC_URL + "learning-icon.svg";
+    }
+
+    logout(event) {
+        event.preventDefault();
+        LoginService.logout();
+        this.setState({
+            isUserLoggedIn: false,
+        });
+    }
+
+    createLoggedUserButtons() {
+        let loggedUserButton =
+            <a role="button" className="navbar-item" onClick={(e) => this.logout(e)}>
+                <i className="fas fa-sign-out-alt"></i> &nbsp; Cerrar sesión
+            </a>;
+        return [loggedUserButton];
+    }
+    
+    createUnloggedUserButtons() {
+        let loginButton =
+            <Link to="/login" className="navbar-item">
+                <i className="fas fa-user"></i> &nbsp; Iniciar sesión
+            </Link>;
+        let signUpButton =
+            <Link to="/sign-up" className="navbar-item">
+                <i className="fas fa-user-plus"></i> &nbsp; Crear cuenta
+            </Link>
+        return [loginButton, signUpButton];
+    }
+
+    createUserButtons() {
+        if (this.state.isUserLoggedIn) {
+            return this.createLoggedUserButtons();
+        }
+        else {
+            return this.createUnloggedUserButtons();
+        }
     }
 
     render() {
@@ -69,12 +108,7 @@ export default class Navbar extends React.Component {
                     </div>
 
                     <div className="navbar-end">
-                        <Link to="/login" className="navbar-item">
-                            <i className="fas fa-user"></i> &nbsp; Iniciar sesión
-                            </Link>
-                        <Link to="/sign-up" className="navbar-item">
-                            <i className="fas fa-user-plus"></i> &nbsp; Crear cuenta
-                            </Link>
+                        {this.createUserButtons().map(e => { return e })}
                     </div>
                 </div>
             </nav >

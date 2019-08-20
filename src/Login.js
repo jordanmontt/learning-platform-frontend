@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
-const axios = require('axios');
+import LoginService from './LoginService';
 
 export default class Login extends React.Component {
 
@@ -23,34 +22,24 @@ export default class Login extends React.Component {
         this.setState({ password: password });
     }
 
-    async login(event) {
-        event.preventDefault();
-
+    createUserObject() {
         let email = this.state.email;
         let password = this.state.password;
-        var user = {
+        return {
             email: email,
             password: password
         };
-        var loginSuccessful = await this.sendLoginRequest(user);
-        if (loginSuccessful) {
-            localStorage.setItem("credentials", JSON.stringify(user));
-            console.log("login successful");
-        } else {
-            console.log("login unsuccessful")
-        }
     }
 
-    async sendLoginRequest(user) {
-        let successfulLogin;
-        await axios.post('https://localhost:5001/api/person/login', user)
-            .then(function (response) {
-                successfulLogin = response.data;
-            })
-            .catch(function (error) {
-                console.log("ERROR searching person: ", error);
+    login(event) {
+        event.preventDefault();
+        let user = this.createUserObject();
+        LoginService.login(user)
+            .then(response => {
+                console.log(response);
+            }).catch(error => {
+                console.log("Error in loging in: ", error);
             });
-        return successfulLogin;
     }
 
     render() {
