@@ -50,9 +50,22 @@ export default class Navbar extends React.Component {
     createLoggedUserButtons() {
         let userName = this.state.userLoggedIn.firstName;
         let loggedUserButton =
-            <a role="button" className="navbar-item" onClick={(e) => this.logout(e)} key={"logout-button"}>
-                <i className="fas fa-user"></i> &nbsp; Bienvenido,&nbsp;{userName}
-            </a>;
+            <div className="navbar-item has-dropdown is-hoverable" key={"user-button"}>
+                <a className="navbar-link">
+                    <i className="fas fa-user"></i> &nbsp; Bienvenido,&nbsp;{userName}
+                </a>
+                <div className="navbar-dropdown">
+                    <a className="navbar-item">
+                        <i className="fas fa-user"></i> &nbsp;{userName}
+                    </a>
+                    <a className="navbar-item">
+                        <i className="fas fa-book"></i> &nbsp;Mis cursos
+                    </a>
+                    <a role="button" onClick={(e) => this.logout(e)} className="navbar-item">
+                        <i className="fas fa-sign-out-alt"></i> &nbsp;Cerrar sesión
+                    </a>
+                </div>
+            </div>
         return [loggedUserButton];
     }
 
