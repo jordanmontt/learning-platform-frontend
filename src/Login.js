@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import LoginService from './LoginService';
 
 export default class Login extends React.Component {
@@ -9,6 +9,8 @@ export default class Login extends React.Component {
         this.state = {
             email: "",
             password: "",
+            redirect: false,
+            incorrectLogin: false,
         }
     }
 
@@ -36,15 +38,37 @@ export default class Login extends React.Component {
         let user = this.createUserObject();
         LoginService.login(user)
             .then(response => {
-                console.log(response);
+                if (response) {
+                    this.setState({ redirect: true, incorrectLogin: false })
+                } else {
+                    this.setState({ incorrectLogin: true })
+                }
             }).catch(error => {
                 console.log("Error in loging in: ", error);
             });
     }
 
+    renderRedirect() {
+        if (this.state.redirect) {
+            return <Redirect to='/' />
+        }
+    }
+
+    createIncorrectLoginMessage() {
+        let message;
+        if (this.state.incorrectLogin) {
+            message =
+                <p className="has-text-danger">
+                    El usuario o la contraseña no coincide. Intente nuevamente.
+                </p>;
+        }
+        return message;
+    }
+
     render() {
         return (
             <section className="hero is-fullheight">
+                {this.renderRedirect()}
                 <div className="hero-body">
                     <div className="container has-text-centered">
                         <div className="column is-4 is-offset-4">
@@ -74,6 +98,7 @@ export default class Login extends React.Component {
                                 </form>
 
                             </div>
+                            {this.createIncorrectLoginMessage()}
                             <p className="has-text-grey">
                                 <Link to='/sign-up'>Crear cuenta &nbsp;·&nbsp;</Link>
                                 <Link to=''>¿Olvidaste la contraseña?</Link>

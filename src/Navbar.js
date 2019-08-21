@@ -9,7 +9,7 @@ export default class Navbar extends React.Component {
         super(props);
         this.state = {
             burgerActive: false,
-            isUserLoggedIn: LoginService.isLoggedIn()
+            userLoggedIn: LoginService.isLoggedIn(),
         };
     }
 
@@ -43,32 +43,33 @@ export default class Navbar extends React.Component {
         event.preventDefault();
         LoginService.logout();
         this.setState({
-            isUserLoggedIn: false,
+            userLoggedIn: null,
         });
     }
 
     createLoggedUserButtons() {
+        let userName = this.state.userLoggedIn.firstName;
         let loggedUserButton =
-            <a role="button" className="navbar-item" onClick={(e) => this.logout(e)}>
-                <i className="fas fa-sign-out-alt"></i> &nbsp; Cerrar sesión
+            <a role="button" className="navbar-item" onClick={(e) => this.logout(e)} key={"logout-button"}>
+                <i className="fas fa-user"></i> &nbsp; Bienvenido,&nbsp;{userName}
             </a>;
         return [loggedUserButton];
     }
-    
+
     createUnloggedUserButtons() {
         let loginButton =
-            <Link to="/login" className="navbar-item">
-                <i className="fas fa-user"></i> &nbsp; Iniciar sesión
+            <Link to="/login" className="navbar-item" key={"login-button"}>
+                <i className="fas fa-sign-in-alt"></i> &nbsp; Iniciar sesión
             </Link>;
         let signUpButton =
-            <Link to="/sign-up" className="navbar-item">
+            <Link to="/sign-up" className="navbar-item" key={"sign-up-button"}>
                 <i className="fas fa-user-plus"></i> &nbsp; Crear cuenta
             </Link>
         return [loginButton, signUpButton];
     }
 
     createUserButtons() {
-        if (this.state.isUserLoggedIn) {
+        if (this.state.userLoggedIn) {
             return this.createLoggedUserButtons();
         }
         else {

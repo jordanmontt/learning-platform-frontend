@@ -3,10 +3,10 @@ const axios = require('axios');
 export default class LoginService {
 
     static async login(user) {
-        var wasLoginSuccessful = await this.sendLoginRequest(user);
-        if (wasLoginSuccessful)
-            this.saveInLocalStorage(user);
-        return wasLoginSuccessful;
+        var loginResponse = await this.sendLoginRequest(user);
+        if (loginResponse)
+            this.saveInLocalStorage(loginResponse);
+        return loginResponse;
     }
 
     static saveInLocalStorage(user) {
@@ -18,19 +18,19 @@ export default class LoginService {
     }
 
     static isLoggedIn() {
-        return localStorage.getItem("credentials");
+        return JSON.parse(localStorage.getItem("credentials"));
     }
 
     static async sendLoginRequest(user) {
-        let successfulLogin = false;
+        let loginResponse = false;
         await axios.post('https://localhost:5001/api/person/login', user)
             .then(function (response) {
-                successfulLogin = response.data;
+                loginResponse = response.data;
             })
             .catch(function (error) {
-                console.log("ERROR searching person: ", error);
+                console.log("ERROR loging in: ", error);
             });
-        return successfulLogin;
+        return loginResponse;
     }
 
 }
