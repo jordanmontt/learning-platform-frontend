@@ -12,7 +12,7 @@ export default class VideoHeader extends React.Component {
     }
 
     async componentDidMount() {
-        let course = await this.obtainCourseName();
+        let course = await this.fetchCourseName();
         if (course) {
             this.setState({
                 courseName: course.name
@@ -30,7 +30,7 @@ export default class VideoHeader extends React.Component {
         return this.props.lesson.name;
     }
 
-    async obtainCourseName() {
+    async fetchCourseName() {
         let course;
         await axios.get('https://localhost:5001/api/course/' + this.props.courseId)
             .then(function (response) {
