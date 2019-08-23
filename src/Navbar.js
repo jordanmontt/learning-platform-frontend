@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import LoginService from './LoginService';
 
 export default class Navbar extends React.Component {
@@ -10,6 +10,7 @@ export default class Navbar extends React.Component {
         this.state = {
             burgerActive: false,
             userLoggedIn: LoginService.isLoggedIn(),
+            redirect: false
         };
     }
 
@@ -44,6 +45,7 @@ export default class Navbar extends React.Component {
         LoginService.logout();
         this.setState({
             userLoggedIn: null,
+            redirect: true,
         });
     }
 
@@ -90,9 +92,16 @@ export default class Navbar extends React.Component {
         }
     }
 
+    renderRedirect() {
+        if (this.state.redirect) {
+            return <Redirect to='/login' />
+        }
+    }
+
     render() {
         return (
             <nav className="navbar" role="navigation" aria-label="main navigation">
+                {this.renderRedirect()}
                 <div className="navbar-brand">
                     <Link to="/" className="navbar-item">
                         <img src={this.getLogoSource()} width="112" height="28" alt="Logo" />

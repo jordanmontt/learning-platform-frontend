@@ -1,6 +1,7 @@
 import React from 'react';
 import LoginService from './LoginService';
 import UnloggedDashboard from './UnloggedDashboard';
+import LoggedDashboard from './LoggedDashboard';
 
 export default class Dashboard extends React.Component {
 
@@ -11,10 +12,17 @@ export default class Dashboard extends React.Component {
         };
     }
 
+    createDashboard() {
+        if (this.state.isUserLoggedIn)
+            return <LoggedDashboard />
+        return <UnloggedDashboard />
+
+    }
+
     render() {
         return (
             <>
-                <UnloggedDashboard />
+                {this.createDashboard()}
             </>
         );
     }
