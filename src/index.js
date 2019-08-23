@@ -5,6 +5,7 @@ import * as serviceWorker from './serviceWorker';
 import App from './App';
 import Login from './Login';
 import SignUp from './SignUp';
+import ViewVideo from './ViewVideo';
 import NotFound from './NotFound';
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom'
 
@@ -14,6 +15,7 @@ const routing = (
             <Route exact path="/" component={App} />
             <Route path="/login" component={Login} />
             <Route path="/sign-up" component={SignUp} />
+            <Route path="/course" component={ViewVideo} />
             <Route component={NotFound} />
         </Switch>
     </Router>

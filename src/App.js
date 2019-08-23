@@ -1,5 +1,5 @@
 import React from 'react';
-import ViewVideo from './ViewVideo'
+import Dashboard from './Dashboard'
 import Navbar from './Navbar'
 import './App.css';
 
@@ -7,7 +7,7 @@ function App() {
   return (
     <>
       <Navbar />
-      <ViewVideo />
+      <Dashboard />
     </>
   );
 }

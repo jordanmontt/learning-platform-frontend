@@ -7,6 +7,7 @@ import ChapterInterceptor from './Interceptors/ChapterInterceptor';
 import VideoInterceptor from './Interceptors/VideoInterceptor';
 import FinishedLessonInterceptor from './Interceptors/FinishedLessonInterceptor';
 import ProgressBar from './ProgressBar';
+import Navbar from './Navbar';
 
 const axios = require('axios');
 
@@ -181,28 +182,31 @@ export default class ViewVideo extends React.Component {
 
     render() {
         return (
-            <div className="container">
-                <VideoHeaders
-                    chapter={this.state.currentChapter}
-                    totalChapters={this.state.chapters}
-                    lesson={this.state.currentLesson}
-                    courseId={this.dataFromParentComponent.idCourse} />
-                <div className="columns is-multiline is-centered is-mobile">
-                    <div className="column is-narrow is-two-thirds-desktop is-full-mobile">
-                        <VideoPlayer videoWidth="720" videoHeight="405" videoSrc={this.state.videoSrc} />
-                    </div>
-                    <div className="column is-narrow is-one-third-desktop is-full-mobile">
-                        <ProgressBar
-                            finishedLessons={this.state.finishedLessons}
-                            totalLessons={this.state.lessons} />
-                        <CourseContent chapters={this.state.chapters}
-                            lessons={this.state.lessons}
-                            currentLesson={this.state.currentLesson}
-                            currentChapter={this.state.currentChapter}
-                            onLessonChange={this.handleChangeLesson} />
+            <>
+                <Navbar />
+                <div className="container">
+                    <VideoHeaders
+                        chapter={this.state.currentChapter}
+                        totalChapters={this.state.chapters}
+                        lesson={this.state.currentLesson}
+                        courseId={this.dataFromParentComponent.idCourse} />
+                    <div className="columns is-multiline is-centered is-mobile">
+                        <div className="column is-narrow is-two-thirds-desktop is-full-mobile">
+                            <VideoPlayer videoWidth="720" videoHeight="405" videoSrc={this.state.videoSrc} />
+                        </div>
+                        <div className="column is-narrow is-one-third-desktop is-full-mobile">
+                            <ProgressBar
+                                finishedLessons={this.state.finishedLessons}
+                                totalLessons={this.state.lessons} />
+                            <CourseContent chapters={this.state.chapters}
+                                lessons={this.state.lessons}
+                                currentLesson={this.state.currentLesson}
+                                currentChapter={this.state.currentChapter}
+                                onLessonChange={this.handleChangeLesson} />
+                        </div>
                     </div>
                 </div>
-            </div>
+            </>
         );
     }
 }
