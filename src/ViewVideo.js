@@ -101,7 +101,7 @@ export default class ViewVideo extends React.Component {
                 videos = response.data;
             })
             .catch(function (error) {
-                console.log("ERROR in getting videos: ", error);
+                console.log("ERROR in fetching videos: ", error);
             })
         return videos;
     }
@@ -113,7 +113,7 @@ export default class ViewVideo extends React.Component {
                 chapters = response.data;
             })
             .catch(function (error) {
-                console.log("ERROR in getting chapters: ", error);
+                console.log("ERROR in fetching chapters: ", error);
             })
         return chapters;
     }
@@ -126,7 +126,7 @@ export default class ViewVideo extends React.Component {
                 lessons = response.data;
             })
             .catch(function (error) {
-                console.log("ERROR in getting lessons: ", error);
+                console.log("ERROR in fetching lessons: ", error);
             })
         return lessons;
     }
@@ -138,7 +138,7 @@ export default class ViewVideo extends React.Component {
                 finishedLessons = response.data;
             })
             .catch(function (error) {
-                console.log("ERROR in getting finished lessons: ", error);
+                console.log("ERROR in fetching finished lessons: ", error);
             })
         return finishedLessons;
     }
