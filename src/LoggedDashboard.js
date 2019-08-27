@@ -29,8 +29,8 @@ export default class LoggedDashboard extends React.Component {
             <section className="hero is-link is-fullheight dashboard-background" >
                 <div className="hero-body">
                     <div className="container">
-                        <div className="columns is-mobile">
-                            <div className="column is-5 is-offset-1" >
+                        <div className="columns is-mobile is-centered">
+                            <div className="column is-5" >
                                 <p className="control has-icons-left has-icons-right">
                                     <input className="input" type="text" placeholder="¿Qué deseas aprender?" />
                                     <span className="icon is-small is-left">
