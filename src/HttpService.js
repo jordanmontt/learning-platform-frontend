@@ -3,6 +3,7 @@ import ChapterInterceptor from './Interceptors/ChapterInterceptor';
 import CourseInProgressInterceptor from './Interceptors/CourseInProgressInterceptor'
 import FinishedLessonInterceptor from './Interceptors/FinishedLessonInterceptor';
 import CourseInterceptor from './Interceptors/CourseInterceptor';
+import VideoInterceptor from './Interceptors/VideoInterceptor';
 
 const axios = require('axios');
 
@@ -73,6 +74,18 @@ export default class HttpService {
                 console.log("ERROR in course name: ", error);
             })
         return course;
+    }
+
+    static async fetchVideos() {
+        var videos;
+        await axios.get('https://localhost:5001/api/video')
+            .then(function (response) {
+                videos = VideoInterceptor.parseMany(response.data);
+            })
+            .catch(function (error) {
+                console.log("ERROR in fetching videos: ", error);
+            })
+        return videos;
     }
 
     static obtainChaptersIDs(chapters) {

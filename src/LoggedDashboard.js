@@ -1,15 +1,22 @@
 import React from 'react';
-import ProgressBar from './ProgressBar'
+import CourseInProgress from './CourseInProgress';
 import LoginService from './LoginService';
 import HttpService from './HttpService';
 
 export default class LoggedDashboard extends React.Component {
 
-    componentDidMount() {
-        this.fetchData().then(data => console.log(data))
+    constructor(props) {
+        super(props);
+        this.state = {
+            coursesInProgress: [],
+        };
     }
 
-    mapCourseInProgress(courseInProgress, courseName, lessons, chapters, finishedLessons) {
+    componentDidMount() {
+        this.renderCoursesInProgress();
+    }
+
+    mapCourseInProgress(courseInProgress, course, lessons, chapters, finishedLessons) {
         return {
             idCourse: courseInProgress.idCourse,
             idStudent: courseInProgress.idStudent,
@@ -17,7 +24,7 @@ export default class LoggedDashboard extends React.Component {
             idLessonInProgress: courseInProgress.idLessonInProgress,
             idCourseInProgress: courseInProgress.idCourseInProgress,
             lastAccessDate: courseInProgress.lastAccessDate,
-            courseName: courseName,
+            course: course,
             lessons: lessons,
             chapters: chapters,
             finishedLessons: finishedLessons
@@ -34,10 +41,22 @@ export default class LoggedDashboard extends React.Component {
             let lessons = await HttpService.fetchLessons(chapters);
             let finishedLessons = await HttpService.fetchFinishedLessons(cp.idCourseInProgress);
             let course = await HttpService.fetchCourse(cp.idCourse);
-            let mappedCourseInP = this.mapCourseInProgress(cp, course.name, lessons, chapters, finishedLessons);
+            let mappedCourseInP = this.mapCourseInProgress(cp, course, lessons, chapters, finishedLessons);
             mappedCoursesInP.push(mappedCourseInP);
         }
         return mappedCoursesInP;
+    }
+
+    async renderCoursesInProgress() {
+        let courses = [];
+        let mappedCoursesInP = await this.fetchData();
+        mappedCoursesInP.forEach(mcp => {
+            let element = <CourseInProgress key={mcp.idCourseInProgress}
+                idCourseInProgress={mcp.idCourseInProgress} finishedLessons={mcp.finishedLessons}
+                lessons={mcp.lessons} course={mcp.course} idLessonInProgress={mcp.idLessonInProgress} />
+            courses.push(element);
+        });
+        this.setState({ coursesInProgress: courses });
     }
 
     render() {
@@ -58,26 +77,7 @@ export default class LoggedDashboard extends React.Component {
                         <br />
                         <h1 className="title is-3 has-text-centered">Retómalos donde los dejaste</h1>
                         <div className="columns is-mobile is-multiline">
-                            <div className="column is-7 is-offset-2">
-                                <article className="media">
-                                    <figure className="media-left">
-                                        <p className="image is-128x128">
-                                            <img src="https://bulma.io/images/placeholders/128x128.png" alt="Imagen del curso" />
-                                        </p>
-                                    </figure>
-                                    <div className="media-content">
-                                        <h1 className="title is-5 has-text-black">Nombre del curso</h1>
-                                        <ProgressBar finishedLessons={[]}
-                                            totalLessons={[]} textAlignment="has-text-left"
-                                            textColor="has-text-black" textSize="is-5" />
-                                        <div className="field">
-                                            <p className="control">
-                                                <button className="button is-outlined is-white">Continuar</button>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </article>
-                            </div>
+                            {this.state.coursesInProgress.map(e => { return e })}
                         </div>
                     </div>
                 </div>

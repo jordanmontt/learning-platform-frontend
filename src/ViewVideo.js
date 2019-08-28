@@ -2,25 +2,20 @@ import React from 'react'
 import VideoPlayer from './VideoPlayer'
 import CourseContent from './CourseContent'
 import VideoHeaders from './VideoHeaders'
-import LessonInterceptor from './Interceptors/LessonInterceptor';
-import ChapterInterceptor from './Interceptors/ChapterInterceptor';
-import VideoInterceptor from './Interceptors/VideoInterceptor';
-import FinishedLessonInterceptor from './Interceptors/FinishedLessonInterceptor';
+import HttpService from './HttpService';
 import ProgressBar from './ProgressBar';
 import Navbar from './Navbar';
-
-const axios = require('axios');
+import queryString from 'query-string';
 
 export default class ViewVideo extends React.Component {
     constructor(props) {
         super(props);
+        let urlParams = queryString.parse(this.props.location.search);
         this.handleChangeLesson = this.handleChangeLesson.bind(this);
-        this.dataFromParentComponent = {
-            idCourseInProgress: 2,
-            idLessonInProgress: 4,
-            idCourse: 1,
-            idStudent: 1,
-            lastAccessDate: "2019-07-10 10:34:09"
+        this.dataFromUrl = {
+            idCourseInProgress: parseInt(urlParams.cp),
+            idLessonInProgress: parseInt(urlParams.lp),
+            idCourse: parseInt(urlParams.c),
         };
         this.state = {
             chapters: [],
@@ -67,8 +62,7 @@ export default class ViewVideo extends React.Component {
     }
 
     obtainLessonFromId(lessons) {
-        // "this.dataFromParentComponent" will be "this.props" when this component has a parent
-        return lessons.find(l => l.idLesson === this.dataFromParentComponent.idLessonInProgress);
+        return lessons.find(l => l.idLesson === this.dataFromUrl.idLessonInProgress);
     }
 
     obtainChapterFromLesson(chapters, lesson) {
@@ -76,77 +70,14 @@ export default class ViewVideo extends React.Component {
     }
 
     async fetchData() {
-        let videos = await this.fetchVideos();
-        let parsedVideos = VideoInterceptor.parse(videos);
-
-        let chapters = await this.fetchChapters(this.dataFromParentComponent.idCourse);
-        let parsedChapters = ChapterInterceptor.parse(chapters);
-
-        let lessons = await this.fetchLessons(chapters);
-        let parsedLessons = LessonInterceptor.parse(lessons);
-
-        let finishedLessons = await this.fetchFinishedLessons(this.dataFromParentComponent.idCourseInProgress);
-        let parsedFinishedLessons = FinishedLessonInterceptor.parse(finishedLessons);
-
+        let videos = await HttpService.fetchVideos();
+        let chapters = await HttpService.fetchChapters(this.dataFromUrl.idCourse);
+        let lessons = await HttpService.fetchLessons(chapters);
+        let finishedLessons = await HttpService.fetchFinishedLessons(this.dataFromUrl.idCourseInProgress);
         return {
-            videos: parsedVideos, lessons: parsedLessons,
-            chapters: parsedChapters, finishedLessons: parsedFinishedLessons
+            videos: videos, lessons: lessons,
+            chapters: chapters, finishedLessons: finishedLessons
         };
-    }
-
-    async fetchVideos() {
-        var videos;
-        await axios.get('https://localhost:5001/api/video')
-            .then(function (response) {
-                videos = response.data;
-            })
-            .catch(function (error) {
-                console.log("ERROR in fetching videos: ", error);
-            })
-        return videos;
-    }
-
-    async fetchChapters(courseId) {
-        var chapters;
-        await axios.get('https://localhost:5001/api/chapter/course/' + courseId)
-            .then(function (response) {
-                chapters = response.data;
-            })
-            .catch(function (error) {
-                console.log("ERROR in fetching chapters: ", error);
-            })
-        return chapters;
-    }
-
-    async fetchLessons(chapters) {
-        var lessons;
-        var chaptersIds = this.obtainChaptersIDs(chapters);
-        await axios.post('https://localhost:5001/api/lesson/chapter', chaptersIds)
-            .then(function (response) {
-                lessons = response.data;
-            })
-            .catch(function (error) {
-                console.log("ERROR in fetching lessons: ", error);
-            })
-        return lessons;
-    }
-
-    async fetchFinishedLessons(courseInProgressId) {
-        var finishedLessons;
-        await axios.get('https://localhost:5001/api/finishedlesson/course-in-progress/' + courseInProgressId)
-            .then(function (response) {
-                finishedLessons = response.data;
-            })
-            .catch(function (error) {
-                console.log("ERROR in fetching finished lessons: ", error);
-            })
-        return finishedLessons;
-    }
-
-    obtainChaptersIDs(chapters) {
-        let chaptersIds = [];
-        chapters.forEach(c => chaptersIds.push(c.idChapter))
-        return chaptersIds;
     }
 
     handleChangeLesson(event) {
@@ -175,9 +106,12 @@ export default class ViewVideo extends React.Component {
     }
 
     findVideoSrc(videos, videoId) {
-        return videos.find(v => {
+        let searchedVideo = videos.find(v => {
             return v.idVideo === videoId;
-        }).source;
+        });
+        if (searchedVideo)
+            return searchedVideo.source;
+        return "";
     }
 
     render() {
@@ -189,7 +123,7 @@ export default class ViewVideo extends React.Component {
                         chapter={this.state.currentChapter}
                         totalChapters={this.state.chapters}
                         lesson={this.state.currentLesson}
-                        courseId={this.dataFromParentComponent.idCourse} />
+                        courseId={this.dataFromUrl.idCourse} />
                     <div className="columns is-multiline is-centered is-mobile">
                         <div className="column is-narrow is-two-thirds-desktop is-full-mobile">
                             <VideoPlayer videoWidth="720" videoHeight="405" videoSrc={this.state.videoSrc} />

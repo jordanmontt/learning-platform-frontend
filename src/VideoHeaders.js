@@ -1,6 +1,5 @@
 import React from 'react'
-
-const axios = require('axios');
+import HttpService from './HttpService';
 
 export default class VideoHeader extends React.Component {
 
@@ -12,7 +11,7 @@ export default class VideoHeader extends React.Component {
     }
 
     async componentDidMount() {
-        let course = await this.fetchCourseName();
+        let course = await HttpService.fetchCourse(this.props.courseId);
         if (course) {
             this.setState({
                 courseName: course.name
@@ -28,18 +27,6 @@ export default class VideoHeader extends React.Component {
 
     getLessonName() {
         return this.props.lesson.name;
-    }
-
-    async fetchCourseName() {
-        let course;
-        await axios.get('https://localhost:5001/api/course/' + this.props.courseId)
-            .then(function (response) {
-                course = response.data;
-            })
-            .catch(function (error) {
-                console.log("ERROR in course name: ", error);
-            })
-        return course;
     }
 
     render() {
