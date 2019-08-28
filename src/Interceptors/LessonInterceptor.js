@@ -1,6 +1,6 @@
 export default class LessonInterceptor {
     
-    static parseLesson(unparsedLesson) {
+    static parseOne(unparsedLesson) {
         return {
             idLesson: parseInt(unparsedLesson.idLesson),
             idChapter: parseInt(unparsedLesson.idChapter),
@@ -9,10 +9,10 @@ export default class LessonInterceptor {
         };
     }
 
-    static parse(unparsedLessons) {
+    static parseMany(unparsedLessons) {
         let parsedLessons = [];
         unparsedLessons.forEach(l => {
-            parsedLessons.push(this.parseLesson(l));
+            parsedLessons.push(this.parseOne(l));
         })
         return parsedLessons
     }

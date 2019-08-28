@@ -1,27 +1,43 @@
 import React from 'react';
 import ProgressBar from './ProgressBar'
 import LoginService from './LoginService';
-
-const axios = require('axios');
+import HttpService from './HttpService';
 
 export default class LoggedDashboard extends React.Component {
 
     componentDidMount() {
-        this.fetchCoursesInProgress().then(res => console.log(res))
+        this.fetchData().then(data => console.log(data))
     }
 
-    async fetchCoursesInProgress() {
+    mapCourseInProgress(courseInProgress, courseName, lessons, chapters, finishedLessons) {
+        return {
+            idCourse: courseInProgress.idCourse,
+            idStudent: courseInProgress.idStudent,
+            isFinished: courseInProgress.isFinished,
+            idLessonInProgress: courseInProgress.idLessonInProgress,
+            idCourseInProgress: courseInProgress.idCourseInProgress,
+            lastAccessDate: courseInProgress.lastAccessDate,
+            courseName: courseName,
+            lessons: lessons,
+            chapters: chapters,
+            finishedLessons: finishedLessons
+        }
+    }
+
+    async fetchData() {
         let user = LoginService.isLoggedIn();
         let userId = user.idPerson;
-        let coursesInProgress;
-        await axios.get('https://localhost:5001/api/courseinprogress/all-courses/' + userId)
-            .then(function (response) {
-                coursesInProgress = response.data;
-            })
-            .catch(function (error) {
-                console.log("ERROR in fetching courses in progress: ", error);
-            })
-        return coursesInProgress;
+        let coursesInProgress = await HttpService.fetchCoursesInProgress(userId);
+        let mappedCoursesInP = []
+        for (let cp of coursesInProgress) {
+            let chapters = await HttpService.fetchChapters(cp.idCourse);
+            let lessons = await HttpService.fetchLessons(chapters);
+            let finishedLessons = await HttpService.fetchFinishedLessons(cp.idCourseInProgress);
+            let course = await HttpService.fetchCourse(cp.idCourse);
+            let mappedCourseInP = this.mapCourseInProgress(cp, course.name, lessons, chapters, finishedLessons);
+            mappedCoursesInP.push(mappedCourseInP);
+        }
+        return mappedCoursesInP;
     }
 
     render() {

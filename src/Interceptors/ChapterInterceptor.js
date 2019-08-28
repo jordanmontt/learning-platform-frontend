@@ -1,6 +1,6 @@
 export default class ChapterInterceptor {
     
-    static parseChapter(unparsedChapter) {
+    static parseOne(unparsedChapter) {
         return {
             idChapter: parseInt(unparsedChapter.idChapter),
             name: unparsedChapter.name,
@@ -9,10 +9,10 @@ export default class ChapterInterceptor {
         }
     }
 
-    static parse(unparsedChapters) {
+    static parseMany(unparsedChapters) {
         let parsedChapters = [];
         unparsedChapters.forEach(c => {
-            parsedChapters.push(this.parseChapter(c));
+            parsedChapters.push(this.parseOne(c));
         })
         return parsedChapters
     }

@@ -1,6 +1,6 @@
 export default class PersonInterceptor {
 
-    static parsePerson(unparsedPerson) {
+    static parseOne(unparsedPerson) {
         return {
             idPerson: parseInt(unparsedPerson.idPerson),
             rol: unparsedPerson.rol,
@@ -13,10 +13,10 @@ export default class PersonInterceptor {
         };
     }
 
-    static parse(unparsedPersons) {
+    static parseMany(unparsedPersons) {
         let parsedPersons = [];
         unparsedPersons.forEach(l => {
-            parsedPersons.push(this.parsePerson(l));
+            parsedPersons.push(this.parseOne(l));
         })
         return parsedPersons
     }

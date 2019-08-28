@@ -1,6 +1,6 @@
 export default class FinishedLessonInterceptor {
 
-    static parseFinishedLesson(unparsedFinishedLesson) {
+    static parseOne(unparsedFinishedLesson) {
         return {
             idFinishedLesson: parseInt(unparsedFinishedLesson.idFinishedLesson),
             idCourseInProgress: parseInt(unparsedFinishedLesson.idCourseInProgress),
@@ -8,10 +8,10 @@ export default class FinishedLessonInterceptor {
         }
     }
 
-    static parse(unparsedFinishedLessons) {
+    static parseMany(unparsedFinishedLessons) {
         let parsedFinishedLessons = [];
         unparsedFinishedLessons.forEach(fl => {
-            parsedFinishedLessons.push(this.parseFinishedLesson(fl));
+            parsedFinishedLessons.push(this.parseOne(fl));
         })
         return parsedFinishedLessons
     }
