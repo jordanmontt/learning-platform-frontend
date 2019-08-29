@@ -6,12 +6,13 @@ import CourseInterceptor from './Interceptors/CourseInterceptor';
 import VideoInterceptor from './Interceptors/VideoInterceptor';
 
 const axios = require('axios');
+const requestDomain = 'https://localhost:5001/api/';
 
 export default class HttpService {
 
     static async fetchFinishedLessons(courseInProgressId) {
         var finishedLessons = [];
-        await axios.get('https://localhost:5001/api/finishedlesson/course-in-progress/' + courseInProgressId)
+        await axios.get(requestDomain + 'finishedlesson/course-in-progress/' + courseInProgressId)
             .then(function (response) {
                 if (response.data)
                     finishedLessons = FinishedLessonInterceptor.parseMany(response.data);
@@ -25,7 +26,7 @@ export default class HttpService {
     static async fetchLessons(chapters) {
         var lessons = [];
         var chaptersIds = this.obtainChaptersIDs(chapters);
-        await axios.post('https://localhost:5001/api/lesson/chapter', chaptersIds)
+        await axios.post(requestDomain + 'lesson/chapter', chaptersIds)
             .then(function (response) {
                 if (response.data)
                     lessons = LessonInterceptor.parseMany(response.data);
@@ -38,7 +39,7 @@ export default class HttpService {
 
     static async fetchChapters(courseId) {
         var chapters = [];
-        await axios.get('https://localhost:5001/api/chapter/course/' + courseId)
+        await axios.get(requestDomain + 'chapter/course/' + courseId)
             .then(function (response) {
                 if (response.data)
                     chapters = ChapterInterceptor.parseMany(response.data);
@@ -51,7 +52,7 @@ export default class HttpService {
 
     static async fetchCoursesInProgress(userId) {
         let coursesInProgress = [];
-        await axios.get('https://localhost:5001/api/courseinprogress/all-courses/' + userId)
+        await axios.get(requestDomain + 'courseinprogress/all-courses/' + userId)
             .then(function (response) {
                 if (response.data) {
                     coursesInProgress = CourseInProgressInterceptor.parseMany(response.data);
@@ -65,7 +66,7 @@ export default class HttpService {
 
     static async fetchCourse(courseId) {
         let course = {};
-        await axios.get('https://localhost:5001/api/course/' + courseId)
+        await axios.get(requestDomain + 'course/' + courseId)
             .then(function (response) {
                 if (response.data)
                     course = CourseInterceptor.parseOne(response.data);
@@ -78,7 +79,7 @@ export default class HttpService {
 
     static async fetchVideos() {
         var videos;
-        await axios.get('https://localhost:5001/api/video')
+        await axios.get(requestDomain + 'video')
             .then(function (response) {
                 videos = VideoInterceptor.parseMany(response.data);
             })
