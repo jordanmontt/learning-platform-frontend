@@ -4,6 +4,7 @@ import CourseInProgressInterceptor from './Interceptors/CourseInProgressIntercep
 import FinishedLessonInterceptor from './Interceptors/FinishedLessonInterceptor';
 import CourseInterceptor from './Interceptors/CourseInterceptor';
 import VideoInterceptor from './Interceptors/VideoInterceptor';
+import CategoryInterceptor from './Interceptors/CategoryInterceptor';
 
 const axios = require('axios');
 const requestDomain = 'https://localhost:5001/api/';
@@ -93,6 +94,18 @@ export default class HttpService {
         let chaptersIds = [];
         chapters.forEach(c => chaptersIds.push(c.idChapter))
         return chaptersIds;
+    }
+
+    static async fetchCategories() {
+        var categories;
+        await axios.get(requestDomain + 'category')
+            .then(function (response) {
+                categories = CategoryInterceptor.parseMany(response.data);
+            })
+            .catch(function (error) {
+                console.log("ERROR in fetching categories: ", error);
+            })
+        return categories;
     }
 
 }

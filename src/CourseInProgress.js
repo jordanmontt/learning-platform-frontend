@@ -4,7 +4,7 @@ import ProgressBar from './ProgressBar';
 export default class CourseInProgress extends React.Component {
 
     getRoute() {
-        return "/course?c=" + this.props.course.idCourse + "&cp=" +
+        return "/course-in-progress?c=" + this.props.course.idCourse + "&cp=" +
             this.props.idCourseInProgress + "&lp=" + this.props.idLessonInProgress;
     }
 
