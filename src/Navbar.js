@@ -117,7 +117,7 @@ export default class Navbar extends React.Component {
 
                 <div id="navbarBasicExample" className={this.getMenuClassName()}>
                     <div className="navbar-start">
-                        <Link to="/" className="navbar-item">
+                        <Link to="/categories" className="navbar-item">
                             <i className="fas fa-th"></i> &nbsp; Categorias
                         </Link>
 

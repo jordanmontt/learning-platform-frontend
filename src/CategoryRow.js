@@ -1,5 +1,5 @@
 import React from 'react';
-import Category from './Category';
+import CategoryCard from './CategoryCard';
 
 export default class CategoryRow extends React.Component {
 
@@ -7,7 +7,7 @@ export default class CategoryRow extends React.Component {
         return (
             <div className="tile is-ancestor">
                 {this.props.categories.map(category => {
-                    return <Category key={category.idCategory} name={category.name}
+                    return <CategoryCard key={category.idCategory} name={category.name}
                         description={category.description} />
                 })}
             </div>
