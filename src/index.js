@@ -8,6 +8,7 @@ import SignUp from './SignUp';
 import ViewVideo from './ViewVideo';
 import NotFound from './NotFound';
 import Categories from './Categories';
+import CategoryView from './CategoryView';
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom'
 
 const routing = (
@@ -18,6 +19,7 @@ const routing = (
             <Route path="/sign-up" component={SignUp} />
             <Route path="/course-in-progress" component={ViewVideo} />
             <Route path="/categories" component={Categories} />
+            <Route path="/category" component={CategoryView} />
             <Route component={NotFound} />
         </Switch>
     </Router>

@@ -1,14 +1,17 @@
 import React from 'react';
 import Navbar from './Navbar';
+import queryString from 'query-string';
 import HttpService from './HttpService';
-import CategoryRow from './CategoryRow';
+import CourseRow from './CourseRow';
 
-export default class Categories extends React.Component {
+export default class CategoryView extends React.Component {
 
     constructor(props) {
         super(props);
+        let parsedParams = queryString.parse(this.props.location.search);
+        this.idCategory = parseInt(parsedParams.id);
         this.state = {
-            groupedCategories: []
+            groupedCourses: [],
         };
     }
 
@@ -17,24 +20,24 @@ export default class Categories extends React.Component {
     }
 
     async groupCategories() {
-        let groupedCategories = [];
-        let categories = await HttpService.fetchCategories()
-        if (categories) {
-            categories.forEach((cat, index) => {
+        let groupedCourses = [];
+        let courses = await HttpService.fetchCoursesFromCategory(this.idCategory);;
+        if (courses) {
+            courses.forEach((course, index) => {
                 if (index % 3 === 0) {
-                    groupedCategories.push([]);
+                    groupedCourses.push([]);
                 }
                 let position = Math.trunc(index / 3);
-                groupedCategories[position].push(cat);
+                groupedCourses[position].push(course);
             })
         }
-        this.setState({ groupedCategories: groupedCategories });
+        this.setState({ groupedCourses: groupedCourses });
     }
 
-    renderGroupedCategories() {
+    renderGroupedCourses() {
         var renderedGroupedCategories = [];
-        this.state.groupedCategories.forEach(group => {
-            renderedGroupedCategories.push(<CategoryRow key={group[0].idCategory} categories={group} />)
+        this.state.groupedCourses.forEach(group => {
+            renderedGroupedCategories.push(<CourseRow key={group[0].idCourse} courses={group} />)
         });
         return renderedGroupedCategories;
     }
@@ -47,13 +50,9 @@ export default class Categories extends React.Component {
                     <div className="hero-head">
                         <div className="container">
                             <h3 className="title is-2 has-text-centered has-background-danger has-text-white">
-                                Categorias
+                                Categoria
                             </h3>
-                        </div>
-                    </div>
-                    <div className="hero-body">
-                        <div className="container">
-                            {this.renderGroupedCategories().map(c => { return c })}
+                            {this.renderGroupedCourses().map(c => { return c })}
                         </div>
                     </div>
                 </section>
