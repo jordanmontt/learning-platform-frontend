@@ -12,11 +12,20 @@ export default class CategoryView extends React.Component {
         this.idCategory = parseInt(parsedParams.id);
         this.state = {
             groupedCourses: [],
+            categoryName: "",
         };
     }
 
     componentDidMount() {
         this.groupCategories();
+        this.obtainCategoryName();
+    }
+
+    async obtainCategoryName() {
+        let category = await HttpService.fetchCategory(this.idCategory);
+        if (category) {
+            this.setState({ categoryName: category.name });
+        }
     }
 
     async groupCategories() {
@@ -42,6 +51,19 @@ export default class CategoryView extends React.Component {
         return renderedGroupedCategories;
     }
 
+    renderMessage() {
+        if (this.state.groupedCourses.length === 0)
+            return (
+                <div>
+                    <br />
+                    <br />
+                    <h1 className="title is-3 has-text-white has-text-centered">
+                        Por el momento no existen cursos para esta categoria :(
+                    </h1>
+                </div>
+            )
+    }
+
     render() {
         return (
             <>
@@ -50,9 +72,12 @@ export default class CategoryView extends React.Component {
                     <div className="hero-head">
                         <div className="container">
                             <h3 className="title is-2 has-text-centered has-background-danger has-text-white">
-                                Categoria
+                                {this.state.categoryName}
                             </h3>
+                            <br />
+                            <br />
                             {this.renderGroupedCourses().map(c => { return c })}
+                            {this.renderMessage()}
                         </div>
                     </div>
                 </section>

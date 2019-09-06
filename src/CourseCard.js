@@ -6,7 +6,7 @@ export default class CourseCard extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            creatorName: "",
+            creatorNameAndPrice: "",
         };
     }
 
@@ -18,7 +18,7 @@ export default class CourseCard extends React.Component {
         let person = await HttpService.fetchPersonById(this.props.course.idCreator);
         let name = this.concatenateName(person);
         let nameWithPrice = this.concatenateNameWithPrice(name);
-        this.setState({ creatorName: nameWithPrice });
+        this.setState({ creatorNameAndPrice: nameWithPrice });
     }
 
     concatenateName(person) {
@@ -48,11 +48,11 @@ export default class CourseCard extends React.Component {
                     </figure>
                     <div className="media-content">
                         <h1 className="title is-5 has-text-white">{this.props.course.name}</h1>
-                        <p className="has-text-black is-7">{this.state.creatorName}</p>
+                        <p className="has-text-black is-7 has-text-weight-bold">{this.state.creatorNameAndPrice}</p>
                         <p className="has-text-white is-7">{this.props.course.description}</p>
                         <div className="field">
                             <p className="control">
-                                <a href='/' className="button is-outlined is-black">Ir al curso</a>
+                                <a href='/' className="button is-inverted is-white">Ir al curso</a>
                             </p>
                         </div>
                     </div>

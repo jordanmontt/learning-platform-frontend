@@ -28,7 +28,7 @@ export default class ProgressBar extends React.Component {
     render() {
         return (
             <p className={this.getClassName()}>Progreso:&nbsp;
-                <b className="title is-5" style={{ color: "#4BB543" }}>{this.calculatePercentage()}</b>
+                <b className="title is-5" style={{ color: "#138C10" }}>{this.calculatePercentage()}</b>
             </p>
         );
     }

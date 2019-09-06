@@ -118,28 +118,37 @@ export default class ViewVideo extends React.Component {
         return (
             <>
                 <Navbar />
-                <div className="container">
-                    <VideoHeaders
-                        chapter={this.state.currentChapter}
-                        totalChapters={this.state.chapters}
-                        lesson={this.state.currentLesson}
-                        courseId={this.dataFromUrl.idCourse} />
-                    <div className="columns is-multiline is-centered is-mobile">
-                        <div className="column is-narrow is-two-thirds-desktop is-full-mobile">
-                            <VideoPlayer videoWidth="720" videoHeight="405" videoSrc={this.state.videoSrc} />
-                        </div>
-                        <div className="column is-narrow is-one-third-desktop is-full-mobile">
-                            <ProgressBar
-                                finishedLessons={this.state.finishedLessons}
-                                totalLessons={this.state.lessons} />
-                            <CourseContent chapters={this.state.chapters}
-                                lessons={this.state.lessons}
-                                currentLesson={this.state.currentLesson}
-                                currentChapter={this.state.currentChapter}
-                                onLessonChange={this.handleChangeLesson} />
+                <section className="hero is-link is-fullheight dashboard-background">
+                    <div className="hero-head">
+                        <div className="container">
+                            <br />
+                            <VideoHeaders
+                                chapter={this.state.currentChapter}
+                                totalChapters={this.state.chapters}
+                                lesson={this.state.currentLesson}
+                                courseId={this.dataFromUrl.idCourse} />
                         </div>
                     </div>
-                </div>
+                    <div className="hero-body">
+                        <div className="container">
+                            <div className="columns is-multiline is-centered is-mobile has-text-black">
+                                <div className="column is-narrow is-two-thirds-desktop is-full-mobile">
+                                    <VideoPlayer videoWidth="720" videoHeight="405" videoSrc={this.state.videoSrc} />
+                                </div>
+                                <div className="column is-narrow is-one-third-desktop is-full-mobile">
+                                    <ProgressBar
+                                        finishedLessons={this.state.finishedLessons}
+                                        totalLessons={this.state.lessons} textColor="has-text-black" />
+                                    <CourseContent chapters={this.state.chapters}
+                                        lessons={this.state.lessons}
+                                        currentLesson={this.state.currentLesson}
+                                        currentChapter={this.state.currentChapter}
+                                        onLessonChange={this.handleChangeLesson} />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
             </>
         );
     }

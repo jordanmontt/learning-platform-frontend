@@ -24,7 +24,7 @@ export default class CourseInProgress extends React.Component {
                             textColor="has-text-black" textSize="is-5" />
                         <div className="field">
                             <p className="control">
-                                <a href={this.getRoute()} className="button is-outlined is-white">Continuar</a>
+                                <a href={this.getRoute()} className="button is-inverted is-white">Continuar</a>
                             </p>
                         </div>
                     </div>

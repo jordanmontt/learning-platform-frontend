@@ -109,6 +109,18 @@ export default class HttpService {
         return categories;
     }
 
+    static async fetchCategory(idCategory) {
+        var category;
+        await axios.get(requestDomain + 'category/' + idCategory)
+            .then(function (response) {
+                category = CategoryInterceptor.parseOne(response.data);
+            })
+            .catch(function (error) {
+                console.log("ERROR in fetching category: ", error);
+            })
+        return category;
+    }
+
     static async fetchCoursesFromCategory(categoryId) {
         var coursesFromCategory;
         await axios.get(requestDomain + 'course/category/' + categoryId)

@@ -31,10 +31,11 @@ export default class VideoHeader extends React.Component {
 
     render() {
         return (
-            <>
-                <h1 className="title is-1"> {this.state.courseName}</h1>
-                <p className="subtitle is-4">{this.getChapterName()}</p>
-                <p className="subtitle is-5">{this.getLessonName()}</p>
-            </>);
+            <div className="notification">
+                <p className="subtitle is-size-2 has-text-black"> {this.state.courseName}</p>
+                <p className="title is-size-5 has-text-black">{this.getChapterName()}</p>
+                <p className="subtitle is-size-6 has-text-black">{this.getLessonName()}</p>
+            </div>
+        );
     }
 }

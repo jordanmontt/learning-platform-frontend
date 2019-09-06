@@ -24,12 +24,7 @@
 }
 
 .dashboard-background {
-  background: #2C3E50;
-  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #4CA1AF, #2C3E50);
-  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #4CA1AF, #2C3E50);
-  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background-image: radial-gradient(circle, #62c1c5, #65bdc5, #68b9c4, #6cb5c2, #70b1c0, #7ab4c3, #83b6c5, #8cb9c7, #9dc3cf, #aeced7, #bed8df, #cfe3e8);
 }
 
 @keyframes App-logo-spin {
