@@ -39,6 +39,19 @@ export default class HttpService {
         return lessons;
     }
 
+    static async fetchVideos(lessons) {
+        var videos;
+        var videosIds = this.obtainVideoIdsFromLessons(lessons);
+        await axios.post(requestDomain + 'video/many', videosIds)
+            .then(function (response) {
+                videos = VideoInterceptor.parseMany(response.data);
+            })
+            .catch(function (error) {
+                console.log("ERROR in fetching videos: ", error);
+            })
+        return videos;
+    }
+
     static async fetchChapters(courseId) {
         var chapters = [];
         await axios.get(requestDomain + 'chapter/course/' + courseId)
@@ -77,24 +90,6 @@ export default class HttpService {
                 console.log("ERROR in course name: ", error);
             })
         return course;
-    }
-
-    static async fetchVideos() {
-        var videos;
-        await axios.get(requestDomain + 'video')
-            .then(function (response) {
-                videos = VideoInterceptor.parseMany(response.data);
-            })
-            .catch(function (error) {
-                console.log("ERROR in fetching videos: ", error);
-            })
-        return videos;
-    }
-
-    static obtainChaptersIDs(chapters) {
-        let chaptersIds = [];
-        chapters.forEach(c => chaptersIds.push(c.idChapter))
-        return chaptersIds;
     }
 
     static async fetchCategories() {
@@ -143,6 +138,19 @@ export default class HttpService {
                 console.log("ERROR in fetching person: ", error);
             });
         return person;
+    }
+
+
+    static obtainChaptersIDs(chapters) {
+        let chaptersIds = [];
+        chapters.forEach(c => chaptersIds.push(c.idChapter))
+        return chaptersIds;
+    }
+
+    static obtainVideoIdsFromLessons(lessons) {
+        let videosIds = [];
+        lessons.forEach(l => videosIds.push(l.idVideo))
+        return videosIds;
     }
 
 }

@@ -70,9 +70,9 @@ export default class ViewVideo extends React.Component {
     }
 
     async fetchData() {
-        let videos = await HttpService.fetchVideos();
         let chapters = await HttpService.fetchChapters(this.dataFromUrl.idCourse);
         let lessons = await HttpService.fetchLessons(chapters);
+        let videos = await HttpService.fetchVideos(lessons);
         let finishedLessons = await HttpService.fetchFinishedLessons(this.dataFromUrl.idCourseInProgress);
         return {
             videos: videos, lessons: lessons,
