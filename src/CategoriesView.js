@@ -3,7 +3,7 @@ import Navbar from './Navbar';
 import HttpService from './HttpService';
 import CategoryRow from './CategoryRow';
 
-export default class Categories extends React.Component {
+export default class CategoriesView extends React.Component {
 
     constructor(props) {
         super(props);

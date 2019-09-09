@@ -5,10 +5,10 @@ import * as serviceWorker from './serviceWorker';
 import App from './App';
 import Login from './Login';
 import SignUp from './SignUp';
-import ViewVideo from './ViewVideo';
+import ViewCourseInProgress from './ViewCourseInProgress';
 import NotFound from './NotFound';
-import Categories from './Categories';
 import CategoryView from './CategoryView';
+import CategoriesView from './CategoriesView';
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom'
 
 const routing = (
@@ -17,8 +17,8 @@ const routing = (
             <Route exact path="/" component={App} />
             <Route path="/login" component={Login} />
             <Route path="/sign-up" component={SignUp} />
-            <Route path="/course-in-progress" component={ViewVideo} />
-            <Route path="/categories" component={Categories} />
+            <Route path="/course-in-progress" component={ViewCourseInProgress} />
+            <Route path="/categories" component={CategoriesView} />
             <Route path="/category" component={CategoryView} />
             <Route component={NotFound} />
         </Switch>

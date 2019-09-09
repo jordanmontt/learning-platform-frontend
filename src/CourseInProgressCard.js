@@ -1,7 +1,7 @@
 import React from 'react';
 import ProgressBar from './ProgressBar';
 
-export default class CourseInProgress extends React.Component {
+export default class CourseInProgressCard extends React.Component {
 
     getRoute() {
         return "/course-in-progress?c=" + this.props.course.idCourse + "&cp=" +

@@ -1,5 +1,5 @@
 import React from 'react';
-import CourseInProgress from './CourseInProgress';
+import CourseInProgressCard from './CourseInProgressCard';
 import LoginService from './LoginService';
 import HttpService from './HttpService';
 
@@ -51,7 +51,7 @@ export default class LoggedDashboard extends React.Component {
         let courses = [];
         let mappedCoursesInP = await this.fetchData();
         mappedCoursesInP.forEach(mcp => {
-            let element = <CourseInProgress key={mcp.idCourseInProgress}
+            let element = <CourseInProgressCard key={mcp.idCourseInProgress}
                 idCourseInProgress={mcp.idCourseInProgress} finishedLessons={mcp.finishedLessons}
                 lessons={mcp.lessons} course={mcp.course} idLessonInProgress={mcp.idLessonInProgress} />
             courses.push(element);

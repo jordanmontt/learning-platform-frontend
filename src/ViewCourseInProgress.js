@@ -7,7 +7,7 @@ import ProgressBar from './ProgressBar';
 import Navbar from './Navbar';
 import queryString from 'query-string';
 
-export default class ViewVideo extends React.Component {
+export default class ViewCourseInProgress extends React.Component {
     constructor(props) {
         super(props);
         let urlParams = queryString.parse(this.props.location.search);
