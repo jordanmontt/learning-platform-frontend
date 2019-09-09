@@ -1,5 +1,5 @@
 export default class LessonInterceptor {
-    
+
     static parseOne(unparsedLesson) {
         return {
             idLesson: parseInt(unparsedLesson.idLesson),
