@@ -1,7 +1,7 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 
-export default class CategoryTile extends React.Component {
+export default class CategoryCard extends React.Component {
 
     constructor(props) {
         super(props);
