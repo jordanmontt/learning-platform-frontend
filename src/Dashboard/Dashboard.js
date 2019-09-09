@@ -1,5 +1,5 @@
 import React from 'react';
-import LoginService from './LoginService';
+import LoginService from '../LoginService';
 import UnloggedDashboard from './UnloggedDashboard';
 import LoggedDashboard from './LoggedDashboard';
 

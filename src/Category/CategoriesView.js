@@ -1,6 +1,6 @@
 import React from 'react';
-import Navbar from './Navbar';
-import HttpService from './HttpService';
+import Navbar from '../Navbar/Navbar';
+import HttpService from '../HttpService';
 import CategoryRow from './CategoryRow';
 
 export default class CategoriesView extends React.Component {

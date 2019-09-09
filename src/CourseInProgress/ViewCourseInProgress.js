@@ -1,10 +1,10 @@
 import React from 'react'
-import VideoPlayer from './VideoPlayer'
-import CourseContent from './CourseContent'
-import VideoHeaders from './VideoHeaders'
-import HttpService from './HttpService';
-import ProgressBar from './ProgressBar';
-import Navbar from './Navbar';
+import VideoPlayer from '../VideoPlayer'
+import CourseContent from '../CourseContent'
+import VideoHeaders from '../VideoHeaders'
+import HttpService from '../HttpService';
+import ProgressBar from '../ProgressBar';
+import Navbar from '../Navbar/Navbar';
 import queryString from 'query-string';
 
 export default class ViewCourseInProgress extends React.Component {

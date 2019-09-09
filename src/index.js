@@ -5,10 +5,10 @@ import * as serviceWorker from './serviceWorker';
 import App from './App';
 import Login from './Login';
 import SignUp from './SignUp';
-import ViewCourseInProgress from './ViewCourseInProgress';
-import NotFound from './NotFound';
-import CategoryView from './CategoryView';
-import CategoriesView from './CategoriesView';
+import ViewCourseInProgress from './CourseInProgress/ViewCourseInProgress';
+import NotFound from './NotFound/NotFound';
+import CategoryView from './Category/CategoryView';
+import CategoriesView from './Category/CategoriesView';
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom'
 
 const routing = (

@@ -1,8 +1,8 @@
 import React from 'react';
-import Navbar from './Navbar';
+import Navbar from '../Navbar/Navbar';
 import queryString from 'query-string';
-import HttpService from './HttpService';
-import CourseRow from './CourseRow';
+import HttpService from '../HttpService';
+import CourseRow from '../Course/CourseRow';
 
 export default class CategoryView extends React.Component {
 

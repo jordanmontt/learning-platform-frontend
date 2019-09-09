@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import LoginService from './LoginService';
+import LoginService from '../LoginService';
 
 export default class Navbar extends React.Component {
 

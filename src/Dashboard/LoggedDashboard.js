@@ -1,7 +1,7 @@
 import React from 'react';
-import CourseInProgressCard from './CourseInProgressCard';
-import LoginService from './LoginService';
-import HttpService from './HttpService';
+import CourseInProgressCard from '../CourseInProgressCard';
+import LoginService from '../LoginService';
+import HttpService from '../HttpService';
 
 export default class LoggedDashboard extends React.Component {
 
