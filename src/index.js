@@ -3,9 +3,9 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
 import App from './App';
-import Login from './Login';
-import SignUp from './SignUp';
-import ViewCourseInProgress from './CourseInProgress/ViewCourseInProgress';
+import Login from './UserAuthentication/Login';
+import SignUp from './UserAuthentication/SignUp';
+import CourseInProgressView from './CourseInProgress/CourseInProgressView';
 import NotFound from './NotFound/NotFound';
 import CategoryView from './Category/CategoryView';
 import CategoriesView from './Category/CategoriesView';
@@ -17,7 +17,7 @@ const routing = (
             <Route exact path="/" component={App} />
             <Route path="/login" component={Login} />
             <Route path="/sign-up" component={SignUp} />
-            <Route path="/course-in-progress" component={ViewCourseInProgress} />
+            <Route path="/course-in-progress" component={CourseInProgressView} />
             <Route path="/categories" component={CategoriesView} />
             <Route path="/category" component={CategoryView} />
             <Route component={NotFound} />

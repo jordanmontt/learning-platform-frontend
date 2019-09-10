@@ -1,13 +1,13 @@
 import React from 'react'
-import VideoPlayer from '../VideoPlayer'
-import CourseContent from '../CourseContent'
-import VideoHeaders from '../VideoHeaders'
-import HttpService from '../HttpService';
-import ProgressBar from '../ProgressBar';
+import VideoPlayer from '../Video/VideoPlayer'
+import CourseContent from '../Course/CourseContent'
+import VideoHeaders from '../Video/VideoHeaders'
+import HttpService from '../Services/HttpService';
+import ProgressBar from '../ProgressBar/ProgressBar';
 import Navbar from '../Navbar/Navbar';
 import queryString from 'query-string';
 
-export default class ViewCourseInProgress extends React.Component {
+export default class CourseInProgressView extends React.Component {
     constructor(props) {
         super(props);
         let urlParams = queryString.parse(this.props.location.search);

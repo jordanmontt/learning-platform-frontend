@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import LoginService from './LoginService';
+import LoginService from '../Services/LoginService';
 
 export default class Login extends React.Component {
 

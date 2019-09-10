@@ -1,5 +1,5 @@
 import React from 'react';
-import HttpService from '../HttpService';
+import HttpService from '../Services/HttpService';
 
 export default class CourseCard extends React.Component {
 

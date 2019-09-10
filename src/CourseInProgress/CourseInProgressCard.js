@@ -1,5 +1,5 @@
 import React from 'react';
-import ProgressBar from './ProgressBar';
+import ProgressBar from '../ProgressBar/ProgressBar';
 
 export default class CourseInProgressCard extends React.Component {
 
