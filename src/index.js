@@ -9,6 +9,7 @@ import CourseInProgressView from './CourseInProgress/CourseInProgressView';
 import NotFound from './NotFound/NotFound';
 import CategoryView from './Category/CategoryView';
 import CategoriesView from './Category/CategoriesView';
+import CourseView from './Course/CourseView';
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom'
 
 const routing = (
@@ -20,6 +21,7 @@ const routing = (
             <Route path="/course-in-progress" component={CourseInProgressView} />
             <Route path="/categories" component={CategoriesView} />
             <Route path="/category" component={CategoryView} />
+            <Route path="/course" component={CourseView} />
             <Route component={NotFound} />
         </Switch>
     </Router>
