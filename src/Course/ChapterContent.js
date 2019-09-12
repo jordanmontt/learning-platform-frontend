@@ -4,33 +4,47 @@ export default class ChapterContent extends React.Component {
 
     createHighlightedLesson(lesson) {
         return (
-            <ins
+            <li
                 id={lesson.idLesson}
                 key={lesson.idLesson}
                 style={{ color: "#3399ff", cursor: "default" }}
-                className="is-6">
+                className="is-size-6">
                 {lesson.name}
-            </ins>
+            </li>
+        );
+    }
+
+    createNormalLessonWithClickHandler(lesson) {
+        return (
+            <li
+                id={lesson.idLesson}
+                key={lesson.idLesson}
+                className="is-size-6"
+                style={{ cursor: "default" }}
+                onClick={this.props.onLessonChange}>
+                {lesson.name}
+            </li>
         );
     }
 
     createNormalLesson(lesson) {
         return (
-            <p
+            <li
                 id={lesson.idLesson}
                 key={lesson.idLesson}
-                className="is-6"
-                style={{ cursor: "default" }}
-                onClick={this.props.onLessonChange}>
+                className="is-size-6"
+                style={{ cursor: "default" }}>
                 {lesson.name}
-            </p>
+            </li>
         );
     }
 
     createLesson(lesson) {
         var lessonHtmlElement;
-        if (this.props.currentLesson.idLesson === lesson.idLesson) {
+        if (this.props.currentLesson && this.props.currentLesson.idLesson === lesson.idLesson) {
             lessonHtmlElement = this.createHighlightedLesson(lesson);
+        } else if (this.props.onLessonChange) {
+            lessonHtmlElement = this.createNormalLessonWithClickHandler(lesson);
         } else {
             lessonHtmlElement = this.createNormalLesson(lesson);
         }
@@ -39,8 +53,8 @@ export default class ChapterContent extends React.Component {
 
     render() {
         return (
-            <div className="container">
-                <p className="is-5"
+            <div>
+                <p className="is-size-5"
                     style={{ cursor: "default" }}>
                     <b>{this.props.chapter.name}</b>
                 </p>

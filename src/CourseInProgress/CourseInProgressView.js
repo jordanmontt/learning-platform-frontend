@@ -1,6 +1,6 @@
 import React from 'react'
 import VideoPlayer from '../Video/VideoPlayer'
-import CourseContent from '../Course/CourseContent'
+import CourseContentForCourseInProgress from '../Course/CourseContentForCourseInProgress'
 import VideoHeaders from '../Video/VideoHeaders'
 import HttpService from '../Services/HttpService';
 import ProgressBar from '../ProgressBar/ProgressBar';
@@ -142,7 +142,7 @@ export default class CourseInProgressView extends React.Component {
                                     <ProgressBar
                                         finishedLessons={this.state.finishedLessons}
                                         totalLessons={this.state.lessons} textColor="has-text-black" />
-                                    <CourseContent chapters={this.state.chapters}
+                                    <CourseContentForCourseInProgress chapters={this.state.chapters}
                                         lessons={this.state.lessons}
                                         currentLesson={this.state.currentLesson}
                                         currentChapter={this.state.currentChapter}
