@@ -1,6 +1,6 @@
 import React from 'react'
 import VideoPlayer from '../Video/VideoPlayer'
-import CourseContentForCourseInProgress from '../Course/CourseContentForCourseInProgress'
+import CourseContentForCourseInProgress from './CourseContentForCourseInProgress'
 import VideoHeaders from '../Video/VideoHeaders'
 import HttpService from '../Services/HttpService';
 import ProgressBar from '../ProgressBar/ProgressBar';

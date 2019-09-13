@@ -1,5 +1,5 @@
 import React from "react";
-import CourseContentGenerator from './CourseContentGenerator';
+import CourseContentGenerator from '../Course/CourseContentGenerator';
 
 export default class CourseContentForCourseInProgress extends React.Component {
 
