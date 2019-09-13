@@ -5,6 +5,7 @@ export default class LessonInterceptor {
             idLesson: parseInt(unparsedLesson.idLesson),
             idChapter: parseInt(unparsedLesson.idChapter),
             idVideo: parseInt(unparsedLesson.idVideo),
+            lessonNumber: parseInt(unparsedLesson.lessonNumber),
             name: unparsedLesson.name
         };
     }
