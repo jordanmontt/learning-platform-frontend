@@ -37,6 +37,10 @@ export default class CourseCard extends React.Component {
         return newName;
     }
 
+    getRedirectRoute() {
+        return "/course?c=" + this.props.course.idCourse;
+    }
+
     render() {
         return (
             <div className="column is-4">
@@ -52,7 +56,7 @@ export default class CourseCard extends React.Component {
                         <p className="has-text-white is-7">{this.props.course.description}</p>
                         <div className="field">
                             <p className="control">
-                                <a href='/' className="button is-inverted is-white">Ir al curso</a>
+                                <a href={this.getRedirectRoute()} className="button is-inverted is-white">Ir al curso</a>
                             </p>
                         </div>
                     </div>
