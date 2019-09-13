@@ -1,6 +1,7 @@
 import React from 'react';
 import HttpService from '../Services/HttpService';
 import Navbar from '../Navbar/Navbar';
+import CourseContentForCourseView from './CourseContentForCourseView';
 import queryString from 'query-string';
 
 export default class CourseView extends React.Component {
@@ -12,6 +13,8 @@ export default class CourseView extends React.Component {
         this.state = {
             courseName: "",
             courseDescription: "",
+            lessons: [],
+            chapters: [],
         }
     }
 
@@ -63,7 +66,7 @@ export default class CourseView extends React.Component {
                                     <p className="has-text-left is-size-5">{this.state.courseDescription}</p>
                                 </div>
                                 <div className=" column is-3">
-                                    <button className="button is-black">Inscribirse</button>
+                                    <button className="button is-black">Inscríbete</button>
                                 </div>
                             </div>
                             <br />
@@ -74,31 +77,9 @@ export default class CourseView extends React.Component {
                                     </h1>
                                 </div>
                             </div>
-
-                            <div className="columns is-centered is-mobile is-multiline">
-                                <div className="column is-6">
-                                    <div className="has-text-centered has-text-black">
-                                        <h1 className="title is-size-5 has-text-black has-text-centered">
-                                            Capitulo 1
-                                        </h1>
-                                        <li>Leccion 1</li>
-                                        <li>Leccion 2</li>
-                                        <li>Leccion 3</li>
-                                        <li>Leccion 4</li>
-                                    </div>
-                                </div>
-                                <div className="column is-6">
-                                    <h1 className="title is-size-5 has-text-black has-text-centered">
-                                        Capitulo 2
-                                    </h1>
-                                    <div className="has-text-centered has-text-black">
-                                        <li>Leccion 1</li>
-                                        <li>Leccion 2</li>
-                                        <li>Leccion 3</li>
-                                        <li>Leccion 4</li>
-                                    </div>
-                                </div>
-                            </div>
+                            <br />
+                            <CourseContentForCourseView lessons={this.state.lessons}
+                                chapters={this.state.chapters} />
                         </div>
                     </div>
                 </section>
