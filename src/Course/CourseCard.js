@@ -22,13 +22,7 @@ export default class CourseCard extends React.Component {
     }
 
     concatenateName(person) {
-        let name = person.firstName;
-        if (person.secondName)
-            name += " " + person.secondName;
-        name += " " + person.fatherLastName;
-        if (person.motherLastName)
-            name += " " + person.motherLastName;
-        return name;
+        return person.names + " " + person.lastNames;
     }
 
     concatenateNameWithPrice(name) {

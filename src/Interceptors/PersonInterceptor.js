@@ -5,11 +5,10 @@ export default class PersonInterceptor {
             idPerson: parseInt(unparsedPerson.idPerson),
             rol: unparsedPerson.rol,
             email: unparsedPerson.email,
-            firstName: unparsedPerson.firstName,
-            secondName: unparsedPerson.secondName,
-            fatherLastName: unparsedPerson.fatherLastName,
-            motherLastName: unparsedPerson.motherLastName,
-            birthDate: unparsedPerson.birthDate
+            names: unparsedPerson.names,
+            lastNames: unparsedPerson.lastNames,
+            birthDate: unparsedPerson.birthDate,
+            password: unparsedPerson.password
         };
     }
 
