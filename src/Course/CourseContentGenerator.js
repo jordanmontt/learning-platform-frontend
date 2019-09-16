@@ -3,11 +3,25 @@ import ChapterContent from './ChapterContent'
 
 export default class CourseContentGenerator {
 
+    sortChaptersArray(chapters) {
+        return chapters.sort((a, b) => {
+            return a.chapterNumber - b.chapterNumber
+        });
+    }
+
+    sortLessonsArray(lessons) {
+        return lessons.sort((a, b) => {
+            return a.lessonNumber - b.lessonNumber
+        });
+    }
+
     associateChaptersWithLessons(chapters, lessons) {
         var chaptersAssociatedWithLessons = [];
-        chapters.forEach(chapter => {
+        let sortedChapters = this.sortChaptersArray(chapters);
+        sortedChapters.forEach(chapter => {
             let lessonsBelongingToAChapter = this.findLessonsBelongingToAChapter(lessons, chapter.idChapter);
-            chaptersAssociatedWithLessons.push({ chapter: chapter, lessons: lessonsBelongingToAChapter });
+            let sortedLessons = this.sortLessonsArray(lessonsBelongingToAChapter);
+            chaptersAssociatedWithLessons.push({ chapter: chapter, lessons: sortedLessons });
         })
         return chaptersAssociatedWithLessons;
     }
