@@ -56,7 +56,7 @@ export default class ChapterContent extends React.Component {
             <div>
                 <p className="is-size-5"
                     style={{ cursor: "default" }}>
-                    <b>{this.props.chapter.name}</b>
+                    <b>{this.props.chapter.chapterNumber + ". " + this.props.chapter.name}</b>
                 </p>
                 {this.props.lessons.map(lesson => {
                     return this.createLesson(lesson);
