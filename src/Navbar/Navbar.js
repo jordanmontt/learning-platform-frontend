@@ -50,7 +50,7 @@ export default class Navbar extends React.Component {
     }
 
     createLoggedUserButtons() {
-        let userName = this.state.userLoggedIn.firstName;
+        let userName = this.state.userLoggedIn.names;
         let loggedUserButton =
             <div className="navbar-item has-dropdown is-hoverable" key={"user-button"}>
                 <a className="navbar-link">

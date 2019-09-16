@@ -140,6 +140,17 @@ export default class HttpService {
         return person;
     }
 
+    static async enrollToACourse(studentId, courseId, lessonInProgressId) {
+        var cp;
+        await axios.get(requestDomain + `courseinprogress/enroll/${studentId}/${courseId}/${lessonInProgressId}`)
+            .then(function (response) {
+                cp = CourseInProgressInterceptor.parseOne(response.data);
+            })
+            .catch(function (error) {
+                console.log("ERROR enrolling student: ", error);
+            });
+        return cp;
+    }
 
     static obtainChaptersIDs(chapters) {
         let chaptersIds = [];
@@ -152,5 +163,6 @@ export default class HttpService {
         lessons.forEach(l => videosIds.push(l.idVideo))
         return videosIds;
     }
+
 
 }

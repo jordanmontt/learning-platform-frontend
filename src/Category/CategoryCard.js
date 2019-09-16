@@ -27,7 +27,8 @@ export default class CategoryCard extends React.Component {
         return (
             <div className="tile is-parent">
                 {this.renderRedirect()}
-                <article className="tile is-child box" onClick={() => this.categoryClicked()}>
+                <article className="tile is-child box" onClick={() => this.categoryClicked()}
+                    style={{ cursor: "default" }}>
                     <p className="title has-text-black">{this.props.category.name}</p>
                     <div className="content">
                         <p className="has-text-black">{this.props.category.description}</p>

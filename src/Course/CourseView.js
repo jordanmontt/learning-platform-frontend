@@ -3,6 +3,7 @@ import HttpService from '../Services/HttpService';
 import Navbar from '../Navbar/Navbar';
 import CourseContentForCourseView from './CourseContentForCourseView';
 import queryString from 'query-string';
+import EnrollButton from './EnrollButton';
 
 export default class CourseView extends React.Component {
 
@@ -66,7 +67,8 @@ export default class CourseView extends React.Component {
                                     <p className="has-text-left is-size-5">{this.state.courseDescription}</p>
                                 </div>
                                 <div className=" column is-3">
-                                    <button className="button is-black">Inscríbete</button>
+                                    <EnrollButton chapters={this.state.chapters} lessons={this.state.lessons}
+                                        courseId={this.courseId} />
                                 </div>
                             </div>
                             <br />
