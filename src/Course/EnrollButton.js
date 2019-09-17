@@ -2,7 +2,6 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 import HttpService from '../Services/HttpService';
 import LoginService from '../Services/LoginService';
-import CourseContentGenerator from './CourseContentGenerator';
 
 export default class EnrollButton extends React.Component {
 
@@ -21,12 +20,11 @@ export default class EnrollButton extends React.Component {
         event.preventDefault();
         this.disableButton();
         let userId = this.state.user.idPerson;
-        let firstLesson = this.obtainFirstLesson();
-        let firstLessonId = firstLesson.idLesson;
-        HttpService.enrollToACourse(userId, this.props.courseId, firstLessonId)
+        HttpService.enrollToACourse(userId, this.props.courseId)
             .then(response => {
                 if (response) {
-                    let route = `course-in-progress?c=${this.props.courseId}&cp=${response.idCourseInProgress}&lp=${firstLessonId}`
+                    let lessonInProgressId = response.idLessonInProgress
+                    let route = `course-in-progress?c=${this.props.courseId}&cp=${response.idCourseInProgress}&lp=${lessonInProgressId}`
                     this.setState({ isButtonDisabled: false, redirect: true, redirectRoute: route });
                 }
             })
@@ -48,15 +46,6 @@ export default class EnrollButton extends React.Component {
     renderRedirect() {
         if (this.state.redirect)
             return <Redirect to={this.state.redirectRoute} />
-    }
-
-    obtainFirstLesson() {
-        let courseContentGenerator = new CourseContentGenerator();
-        let lessonsWithChapeters = courseContentGenerator.associateChaptersWithLessons(this.props.chapters, this.props.lessons);
-        let firstLesson = lessonsWithChapeters[0];
-        if (firstLesson)
-            firstLesson = lessonsWithChapeters[0].lessons[0];
-        return firstLesson;
     }
 
     userNotLoggedMessage() {

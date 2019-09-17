@@ -140,9 +140,9 @@ export default class HttpService {
         return person;
     }
 
-    static async enrollToACourse(studentId, courseId, lessonInProgressId) {
+    static async enrollToACourse(studentId, courseId) {
         var cp;
-        await axios.get(requestDomain + `courseinprogress/enroll/${studentId}/${courseId}/${lessonInProgressId}`)
+        await axios.get(requestDomain + `courseinprogress/enroll/${studentId}/${courseId}`)
             .then(function (response) {
                 cp = CourseInProgressInterceptor.parseOne(response.data);
             })
