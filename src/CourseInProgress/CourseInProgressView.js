@@ -73,7 +73,7 @@ export default class CourseInProgressView extends React.Component {
         let chapters = await HttpService.fetchChapters(this.dataFromUrl.idCourse);
         let lessons = await HttpService.fetchLessons(chapters);
         let videos = await HttpService.fetchVideos(lessons);
-        let finishedLessons = await HttpService.fetchFinishedLessons(this.dataFromUrl.idCourseInProgress);
+        let finishedLessons = await HttpService.fetchFinishedLessonsFromCourseInProgress(this.dataFromUrl.idCourseInProgress);
         return {
             videos: videos, lessons: lessons,
             chapters: chapters, finishedLessons: finishedLessons

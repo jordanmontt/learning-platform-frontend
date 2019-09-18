@@ -12,7 +12,7 @@ const requestDomain = 'https://localhost:5001/api/';
 
 export default class HttpService {
 
-    static async fetchFinishedLessons(courseInProgressId) {
+    static async fetchFinishedLessonsFromCourseInProgress(courseInProgressId) {
         var finishedLessons = [];
         await axios.get(requestDomain + 'finishedlesson/course-in-progress/' + courseInProgressId)
             .then(function (response) {
