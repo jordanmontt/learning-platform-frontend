@@ -140,7 +140,12 @@ export default class CourseInProgressView extends React.Component {
             idLesson: this.state.currentLesson.idLesson,
             idCourseInProgress: this.dataFromUrl.idCourseInProgress
         }
-        return await HttpService.postFinishedLesson(finishedLesson)
+        let httpResponse = await HttpService.postFinishedLesson(finishedLesson)
+        if (httpResponse) {
+            let newFinishedLessons = this.state.finishedLessons;
+            newFinishedLessons.push(finishedLesson)
+            this.setState({ finishedLesson: newFinishedLessons });
+        }
     }
 
     render() {
