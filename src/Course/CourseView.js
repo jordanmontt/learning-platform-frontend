@@ -36,7 +36,7 @@ export default class CourseView extends React.Component {
     async fetchData() {
         let course = await HttpService.fetchCourse(this.courseId);
         let chapters = await HttpService.fetchChapters(this.courseId);
-        let lessons = await HttpService.fetchLessons(chapters);
+        let lessons = await HttpService.fetchLessonsFromChapters(chapters);
         return { course: course, lessons: lessons, chapters: chapters };
     }
 

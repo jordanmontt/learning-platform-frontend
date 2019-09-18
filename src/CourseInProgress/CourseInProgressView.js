@@ -71,7 +71,7 @@ export default class CourseInProgressView extends React.Component {
 
     async fetchData() {
         let chapters = await HttpService.fetchChapters(this.dataFromUrl.idCourse);
-        let lessons = await HttpService.fetchLessons(chapters);
+        let lessons = await HttpService.fetchLessonsFromChapters(chapters);
         let videos = await HttpService.fetchVideos(lessons);
         let finishedLessons = await HttpService.fetchFinishedLessonsFromCourseInProgress(this.dataFromUrl.idCourseInProgress);
         return {
@@ -83,6 +83,19 @@ export default class CourseInProgressView extends React.Component {
     handleChangeLesson(event) {
         event.preventDefault();
         let newLessonId = parseInt(event.target.id);
+        this.changeCurrentContent(newLessonId);
+    }
+
+    isLessonAlreadyFinished() {
+        let response = false;
+        this.state.finishedLessons.forEach(fl => {
+            if (fl.idLesson === this.state.currentLesson.idLesson)
+                response = true;
+        })
+        return response;
+    }
+
+    changeCurrentContent(newLessonId) {
         var newCurrentLesson = this.findCurrentLesson(this.state.lessons, newLessonId);
         var newCurrentChapter = this.findCurrentChapter(this.state.chapters, newCurrentLesson.idChapter);
         var newVideoSrc = this.findVideoSrc(this.state.videos, newCurrentLesson.idVideo);
@@ -117,6 +130,19 @@ export default class CourseInProgressView extends React.Component {
         return "";
     }
 
+    async handleFinishLessonClick(event) {
+        event.preventDefault();
+        this.postCurrentLessonAsFinished();
+    }
+
+    async postCurrentLessonAsFinished() {
+        let finishedLesson = {
+            idLesson: this.state.currentLesson.idLesson,
+            idCourseInProgress: this.dataFromUrl.idCourseInProgress
+        }
+        return await HttpService.postFinishedLesson(finishedLesson)
+    }
+
     render() {
         return (
             <>
@@ -139,6 +165,15 @@ export default class CourseInProgressView extends React.Component {
                                     <VideoPlayer videoWidth="720" videoHeight="405" videoSrc={this.state.videoSrc} />
                                 </div>
                                 <div className="column is-narrow is-one-third-desktop is-full-mobile">
+                                    <div className="has-text-centered">
+                                        <button className="button is-black"
+                                            onClick={(e) => this.handleFinishLessonClick(e)}
+                                            disabled={this.isLessonAlreadyFinished()}>
+                                            Marcar lección como terminada
+                                        </button>
+                                        <br />
+                                        <br />
+                                    </div>
                                     <ProgressBar
                                         finishedLessons={this.state.finishedLessons}
                                         totalLessons={this.state.lessons} textColor="has-text-black" />

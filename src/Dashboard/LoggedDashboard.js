@@ -34,12 +34,12 @@ export default class LoggedDashboard extends React.Component {
     async fetchData() {
         let user = LoginService.isLoggedIn();
         let userId = user.idPerson;
-        let coursesInProgress = await HttpService.fetchCoursesInProgress(userId);
+        let coursesInProgress = await HttpService.fetchCoursesInProgressFromUser(userId);
         let mappedCoursesInP = []
         for (let cp of coursesInProgress) {
             let chapters = await HttpService.fetchChapters(cp.idCourse);
-            let lessons = await HttpService.fetchLessons(chapters);
-            let finishedLessons = await HttpService.fetchFinishedLessons(cp.idCourseInProgress);
+            let lessons = await HttpService.fetchLessonsFromChapters(chapters);
+            let finishedLessons = await HttpService.fetchFinishedLessonsFromCourseInProgress(cp.idCourseInProgress);
             let course = await HttpService.fetchCourse(cp.idCourse);
             let mappedCourseInP = this.mapCourseInProgress(cp, course, lessons, chapters, finishedLessons);
             mappedCoursesInP.push(mappedCourseInP);

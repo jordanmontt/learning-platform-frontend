@@ -25,7 +25,20 @@ export default class HttpService {
         return finishedLessons;
     }
 
-    static async fetchLessons(chapters) {
+    static async postFinishedLesson(finishedLesson) {
+        let wasSuccessful = false;
+        await axios.post(requestDomain + 'finishedlesson', finishedLesson)
+            .then(function (response) {
+                if (response.status)
+                    wasSuccessful = true;
+            })
+            .catch(function (error) {
+                console.log("ERROR posting finishedLesson: ", error);
+            })
+        return wasSuccessful;
+    }
+
+    static async fetchLessonsFromChapters(chapters) {
         var lessons = [];
         var chaptersIds = this.obtainChaptersIDs(chapters);
         await axios.post(requestDomain + 'lesson/chapter', chaptersIds)
@@ -65,7 +78,7 @@ export default class HttpService {
         return chapters;
     }
 
-    static async fetchCoursesInProgress(userId) {
+    static async fetchCoursesInProgressFromUser(userId) {
         let coursesInProgress = [];
         await axios.get(requestDomain + 'courseinprogress/all-courses/' + userId)
             .then(function (response) {
@@ -77,6 +90,20 @@ export default class HttpService {
                 console.log("ERROR in fetching courses in progress: ", error);
             })
         return coursesInProgress;
+    }
+
+    static async fetchCourseInProgress(courseInProgressId) {
+        let courseInProgress = {};
+        await axios.get(requestDomain + 'courseinprogress/' + courseInProgressId)
+            .then(function (response) {
+                if (response.data) {
+                    courseInProgress = CourseInProgressInterceptor.parseOne(response.data);
+                }
+            })
+            .catch(function (error) {
+                console.log("ERROR in fetching courses in progress: ", error);
+            })
+        return courseInProgress;
     }
 
     static async fetchCourse(courseId) {
