@@ -10,13 +10,26 @@ export default class VideoHeader extends React.Component {
         };
     }
 
-    async componentDidMount() {
-        let course = await HttpService.fetchCourse(this.props.courseId);
-        if (course) {
-            this.setState({
-                courseName: course.name
-            });
+    // async componentDidMount() {
+    //     console.log(this.props)
+    //     await HttpService.fetchCourse(this.props.courseId)
+    //         .then(response => {
+    //             this.setState({ courseName: response.name })
+    //         })
+    //         .catch(error => {
+    //             console.log(error)
+    //         });
+
+    // }
+
+    getCourseName() {
+        if (this.props.courseId) {
+            HttpService.fetchCourse(this.props.courseId)
+                .then(course => {
+                    this.setState({ courseName: course.name });
+                })
         }
+        return this.state.courseName;
     }
 
     getChapterName() {
@@ -32,7 +45,7 @@ export default class VideoHeader extends React.Component {
     render() {
         return (
             <div className="notification">
-                <p className="subtitle is-size-2 has-text-black"> {this.state.courseName}</p>
+                <p className="subtitle is-size-2 has-text-black"> {this.getCourseName()}</p>
                 <p className="title is-size-5 has-text-black">{this.getChapterName()}</p>
                 <p className="subtitle is-size-6 has-text-black">{this.getLessonName()}</p>
             </div>

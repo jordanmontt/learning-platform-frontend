@@ -23,10 +23,8 @@ export default class EnrollButton extends React.Component {
         HttpService.enrollToACourse(userId, this.props.courseId)
             .then(response => {
                 if (response) {
-                    let idCourse = response.idCourse;
                     let idCourseInProgress = response.idCourseInProgress;
-                    let idLessonInProgress = response.idLessonInProgress;
-                    let route = `course-in-progress?c=${idCourse}&cp=${idCourseInProgress}&lp=${idLessonInProgress}`
+                    let route = `course-in-progress?cp=${idCourseInProgress}`
                     this.setState({ isButtonDisabled: false, redirect: true, redirectRoute: route });
                 }
             })

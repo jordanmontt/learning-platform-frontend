@@ -12,11 +12,7 @@ export default class CourseInProgressView extends React.Component {
         super(props);
         let urlParams = queryString.parse(this.props.location.search);
         this.handleChangeLesson = this.handleChangeLesson.bind(this);
-        this.dataFromUrl = {
-            idCourseInProgress: parseInt(urlParams.cp),
-            idLessonInProgress: parseInt(urlParams.lp),
-            idCourse: parseInt(urlParams.c),
-        };
+        this.courseInProgressId = parseInt(urlParams.cp);
         this.state = {
             chapters: [],
             lessons: [],
@@ -24,7 +20,8 @@ export default class CourseInProgressView extends React.Component {
             videos: [],
             currentChapter: {},
             currentLesson: {},
-            videoSrc: ""
+            videoSrc: "",
+            courseInProgress: {},
         }
     }
 
@@ -43,10 +40,11 @@ export default class CourseInProgressView extends React.Component {
     }
 
     dataObtainedSuccessfully(data) {
+        let courseInProgress = data.courseInProgress;
         let videos = data.videos;
         let lessons = data.lessons;
         let chapters = data.chapters;
-        let currentLesson = this.obtainLessonFromId(lessons);
+        let currentLesson = this.obtainLessonFromId(lessons, courseInProgress);
         let currentChapter = this.obtainChapterFromLesson(chapters, currentLesson);
         let finishedLessons = data.finishedLessons;
         let videoSrc = this.findVideoSrc(videos, currentLesson.idVideo);
@@ -57,12 +55,13 @@ export default class CourseInProgressView extends React.Component {
             videos: videos,
             lessons: lessons,
             chapters: chapters,
-            finishedLessons: finishedLessons
+            finishedLessons: finishedLessons,
+            courseInProgress: courseInProgress,
         });
     }
 
-    obtainLessonFromId(lessons) {
-        return lessons.find(l => l.idLesson === this.dataFromUrl.idLessonInProgress);
+    obtainLessonFromId(lessons, courseInProgress) {
+        return lessons.find(l => l.idLesson === courseInProgress.idLessonInProgress);
     }
 
     obtainChapterFromLesson(chapters, lesson) {
@@ -70,13 +69,14 @@ export default class CourseInProgressView extends React.Component {
     }
 
     async fetchData() {
-        let chapters = await HttpService.fetchChapters(this.dataFromUrl.idCourse);
+        let courseInProgress = await HttpService.fetchCourseInProgress(this.courseInProgressId);
+        let chapters = await HttpService.fetchChapters(courseInProgress.idCourse);
         let lessons = await HttpService.fetchLessonsFromChapters(chapters);
         let videos = await HttpService.fetchVideos(lessons);
-        let finishedLessons = await HttpService.fetchFinishedLessonsFromCourseInProgress(this.dataFromUrl.idCourseInProgress);
+        let finishedLessons = await HttpService.fetchFinishedLessonsFromCourseInProgress(this.courseInProgressId);
         return {
             videos: videos, lessons: lessons,
-            chapters: chapters, finishedLessons: finishedLessons
+            chapters: chapters, finishedLessons: finishedLessons, courseInProgress: courseInProgress
         };
     }
 
@@ -138,7 +138,7 @@ export default class CourseInProgressView extends React.Component {
     async postCurrentLessonAsFinished() {
         let finishedLesson = {
             idLesson: this.state.currentLesson.idLesson,
-            idCourseInProgress: this.dataFromUrl.idCourseInProgress
+            idCourseInProgress: this.courseInProgressId
         }
         let httpResponse = await HttpService.postFinishedLesson(finishedLesson)
         if (httpResponse) {
@@ -160,7 +160,7 @@ export default class CourseInProgressView extends React.Component {
                                 chapter={this.state.currentChapter}
                                 totalChapters={this.state.chapters}
                                 lesson={this.state.currentLesson}
-                                courseId={this.dataFromUrl.idCourse} />
+                                courseId={this.state.courseInProgress.idCourse} />
                         </div>
                     </div>
                     <div className="hero-body">
