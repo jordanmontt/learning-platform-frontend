@@ -2,6 +2,7 @@ import React from 'react';
 import CourseInProgressCard from '../CourseInProgress/CourseInProgressCard';
 import LoginService from '../Services/LoginService';
 import HttpService from '../Services/HttpService';
+import { Redirect } from 'react-router-dom';
 
 export default class LoggedDashboard extends React.Component {
 
@@ -9,6 +10,8 @@ export default class LoggedDashboard extends React.Component {
         super(props);
         this.state = {
             coursesInProgress: [],
+            redirectRoute: "",
+            redirect: false,
         };
     }
 
@@ -59,15 +62,32 @@ export default class LoggedDashboard extends React.Component {
         this.setState({ coursesInProgress: courses });
     }
 
+    async handleInput(event) {
+        if (event.key === 'Enter') {
+            let query = event.target.value;
+            if (query) {
+                let redirectRoute = `/search?q=${query}`;
+                this.setState({ redirect: true, redirectRoute: redirectRoute });
+            }
+        }
+    }
+
+    renderRedirect() {
+        if (this.state.redirect)
+            return <Redirect to={this.state.redirectRoute} />
+    }
+
     render() {
         return (
             <section className="hero is-link is-fullheight dashboard-background" >
+                {this.renderRedirect()}
                 <div className="hero-body">
                     <div className="container">
                         <div className="columns is-mobile is-centered">
                             <div className="column is-5" >
                                 <p className="control has-icons-left has-icons-right">
-                                    <input className="input" type="text" placeholder="¿Qué deseas aprender?" />
+                                    <input className="input" type="text" placeholder="¿Qué deseas aprender?"
+                                        onKeyDown={(e) => this.handleInput(e)} />
                                     <span className="icon is-small is-left">
                                         <i className="fas fa-search"></i>
                                     </span>
