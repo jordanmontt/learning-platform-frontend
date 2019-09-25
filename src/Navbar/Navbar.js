@@ -121,7 +121,7 @@ export default class Navbar extends React.Component {
                             <i className="fas fa-th"></i> &nbsp; Categorias
                         </Link>
 
-                        <Link to="/" className="navbar-item">
+                        <Link to="/search" className="navbar-item">
                             <i className="fas fa-search"></i> &nbsp; Buscar
                         </Link>
 

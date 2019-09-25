@@ -10,6 +10,7 @@ import NotFound from './NotFound/NotFound';
 import CategoryView from './Category/CategoryView';
 import CategoriesView from './Category/CategoriesView';
 import CourseView from './Course/CourseView';
+import SearchView from './Search/SearchView';
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom'
 
 const routing = (
@@ -22,6 +23,7 @@ const routing = (
             <Route path="/categories" component={CategoriesView} />
             <Route path="/category" component={CategoryView} />
             <Route path="/course" component={CourseView} />
+            <Route path="/search" component={SearchView} />
             <Route component={NotFound} />
         </Switch>
     </Router>

@@ -179,6 +179,18 @@ export default class HttpService {
         return cp;
     }
 
+    static async searchCourse(query) {
+        let courses = [];
+        await axios.get(requestDomain + `course/search-by-name/${query}`)
+            .then(function (response) {
+                courses = CourseInterceptor.parseMany(response.data);
+            })
+            .catch(function (error) {
+                console.log("ERROR searching a course: ", error);
+            });
+        return courses;
+    }
+
     static obtainChaptersIDs(chapters) {
         let chaptersIds = [];
         chapters.forEach(c => chaptersIds.push(c.idChapter))
